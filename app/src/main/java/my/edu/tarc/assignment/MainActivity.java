@@ -12,6 +12,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.ImageButton;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
@@ -40,6 +41,62 @@ public class MainActivity extends AppCompatActivity
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
+        //Image buttons for top up
+        ImageButton imageButtonDigi = (ImageButton)findViewById(R.id.imageButtonDigi);
+        imageButtonDigi.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Snackbar.make(view, "testing", Snackbar.LENGTH_SHORT).setAction("test", null).show();
+            }
+        });
+
+        ImageButton imageButtonUmobile = (ImageButton)findViewById(R.id.imageButtonUmobile);
+        imageButtonUmobile.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+            }
+        });
+
+        ImageButton imageButtonHotlink = (ImageButton)findViewById(R.id.imageButtonHotlink);
+        imageButtonHotlink.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+            }
+        });
+
+        ImageButton imageButtonXpax = (ImageButton)findViewById(R.id.imageButtonXpax);
+        imageButtonXpax.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+            }
+        });
+        //Image button for voucher
+        ImageButton imageButtonSteam = (ImageButton)findViewById(R.id.imageButtonSteam);
+        imageButtonSteam.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+            }
+        });
+
+        ImageButton imageButtonGarena = (ImageButton)findViewById(R.id.imageButtonGarena);
+        imageButtonGarena.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+            }
+        });
+
+        ImageButton imageButtonPlaystation = (ImageButton)findViewById(R.id.imageButtonPlaystation);
+        imageButtonPlaystation.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+            }
+        });
     }
 
     @Override
