@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:showIn="navigation_view">
+
+    <group android:checkableBehavior="single">
+        <item
+            android:id="@+id/nav_voucher"
+            android:icon="@drawable/ic_card_giftcard_grey_24dp"
+            android:title="@string/view_voucher" />
+        <item
+            android:id="@+id/nav_wallet"
+            android:icon="@drawable/ic_account_balance_wallet_grey_24dp"
+            android:title="@string/my_wallet" />
+    </group>
+
+    <item android:title="@string/account">
+        <menu>
+            <item
+                android:id="@+id/nav_settings"
+                android:icon="@drawable/ic_settings_grey_24dp"
+                android:title="@string/settings" />
+            <item
+                android:id="@+id/nav_logout"
+                android:icon="@drawable/ic_exit_to_app_grey_24dp"
+                android:title="@string/logout" />
+        </menu>
+    </item>
+
+</menu>
