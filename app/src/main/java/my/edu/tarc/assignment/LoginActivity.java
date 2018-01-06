@@ -56,6 +56,15 @@ public class LoginActivity extends AppCompatActivity {
                 downloadUser(getApplicationContext(), getString(R.string.get_user_url));
             }
         });
+        Button buttonRegister = (Button)findViewById(R.id.buttonRegister);
+        buttonRegister.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent=new Intent(LoginActivity.this,RegisterActivity.class);
+                startActivity(intent);
+            }
+        });
+
     }
 
     private void downloadUser(Context context, String url){

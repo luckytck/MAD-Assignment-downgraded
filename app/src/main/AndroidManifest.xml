@@ -39,6 +39,18 @@
             android:label="Wallet"
             android:parentActivityName=".MainActivity"
             android:theme="@style/AppTheme"></activity>
+        <activity android:name=".RegisterActivity"
+            android:label="Registration"
+            android:parentActivityName=".LoginActivity"/>
+        <activity android:name=".PINSetupActivity"
+            android:label="PIN setup"
+            android:parentActivityName=".RegisterActivity"/>
+        <activity android:name=".ChangePasswordActivity"
+            android:label="Change Password"
+            android:parentActivityName=".SettingsActivity"/>
+        <activity android:name=".ResetPINActivity"
+            android:label="Reset PIN"
+            android:parentActivityName=".SettingsActivity"/>
     </application>
 
 </manifest>

@@ -38,4 +38,28 @@
     <string name="balance">RM0.00</string>
     <string name="credit_debit_card">CREDIT/DEBIT CARD</string>
     <string name="top_up">Top Up</string>
+
+    <string name="registerstring">Register</string>
+    <string name="massage">Please enter following details:</string>
+
+    <string name="confirmpassword">Confirm Password</string>
+    <string name="fullname">Full Name</string>
+    <string name="phonenumber">Phone Number</string>
+    <string name="email">Email Address</string>
+    <string name="next">Next</string>
+    <string name="registertitle">Registration Form</string>
+    <string name="pinsetup">PIN Setup</string>
+    <string name="message2">Transaction PIN</string>
+    <string name="message3">Enter your 6-Digits PIN to confirm</string>
+    <string name="message4">Transaction PIN Reset</string>
+    <string name="message5">Enter your new 6-Digit transaction PIN</string>
+    <string name="message6">Enter your password to change your PIN</string>
+    <string name="textpin">Pin</string>
+    <string name="btnconfirm">Confirm</string>
+    <string name="message7">LOGIN DETAILS</string>
+    <string name="OldPassword">Old Password</string>
+    <string name="NewPassword">New Password</string>
+    <string name="ConfirmNewPassword">Confirm New Password</string>
+    <string name="btnsave">Save</string>
+    <string name="insert_user_url">https://easy-app.000webhostapp.com/insert_user.php</string>
 </resources>
