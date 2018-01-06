@@ -122,7 +122,7 @@ public class ResetPINActivity extends AppCompatActivity {
                 protected Map<String, String> getParams() {
                     Map<String, String> params = new HashMap<>();
                     params.put("pin", String.valueOf(user.getPin()));
-                   params.put("username", user.getUsername());
+                    params.put("username", user.getUsername());
                     return params;
                 }
 

@@ -72,6 +72,14 @@ public class SettingsActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+        Button buttonChangePassword=(Button)findViewById(R.id.buttonChangePassword);
+        buttonChangePassword.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(SettingsActivity.this,ChangePasswordActivity.class);
+                startActivity(intent);
+            }
+        });
     }
 
     private void downloadUser(Context context, String url){

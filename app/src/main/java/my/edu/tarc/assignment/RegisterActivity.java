@@ -36,7 +36,7 @@ public class RegisterActivity extends AppCompatActivity {
     public final static String USER_PHONENO="phoneNo";
     public final static String USER_EMAIL="email";
 
-    EditText editTextUsername2,editTextPassword,editTextConfirmPassword,editTextFullName,editTextPhoneNumber,editTextEmailAddress;
+    private EditText editTextUsername2,editTextPassword,editTextConfirmPassword,editTextFullName,editTextPhoneNumber,editTextEmailAddress;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
