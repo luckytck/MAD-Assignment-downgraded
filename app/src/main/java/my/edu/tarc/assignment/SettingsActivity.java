@@ -64,6 +64,14 @@ public class SettingsActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+        Button buttonResetPIN=(Button)findViewById(R.id.buttonResetPin);
+        buttonResetPIN.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(SettingsActivity.this,ResetPINActivity.class);
+                startActivity(intent);
+            }
+        });
     }
 
     private void downloadUser(Context context, String url){

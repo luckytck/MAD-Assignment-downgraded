@@ -62,4 +62,6 @@
     <string name="ConfirmNewPassword">Confirm New Password</string>
     <string name="btnsave">Save</string>
     <string name="insert_user_url">https://easy-app.000webhostapp.com/insert_user.php</string>
+    <string name="update_user_pin">https://easy-app.000webhostapp.com/update_pin.php</string>
+    <string name="update_user_password">https://easy-app.000webhostapp.com/update_password.php</string>
 </resources>
