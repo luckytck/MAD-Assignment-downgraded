@@ -5,27 +5,30 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
 
-    tools:context="my.edu.tarc.myapplication.PINSetupActivity">
+    android:background="@android:color/white"
+    tools:context="my.edu.tarc.assignment.PINSetupActivity">
 
     <ImageView
         android:id="@+id/imageViewlock"
         android:layout_width="120dp"
         android:layout_height="126dp"
         android:layout_marginLeft="27dp"
+        android:layout_marginStart="27dp"
         android:layout_marginTop="64dp"
+        android:contentDescription=""
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:srcCompat="@drawable/lock"
-        tools:ignore="ContentDescription,RtlHardcoded"
-        android:contentDescription=""
-        android:layout_marginStart="27dp" />
+        tools:ignore="ContentDescription,RtlHardcoded" />
 
     <TextView
         android:id="@+id/textViewMessage2"
         android:layout_width="181dp"
         android:layout_height="72dp"
+        android:layout_marginEnd="42dp"
         android:layout_marginLeft="8dp"
         android:layout_marginRight="42dp"
+        android:layout_marginStart="8dp"
         android:layout_marginTop="92dp"
         android:text="@string/message2"
         android:textAlignment="center"
@@ -35,16 +38,16 @@
         app:layout_constraintLeft_toRightOf="@+id/imageViewlock"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        tools:ignore="RtlHardcoded"
-        android:layout_marginStart="8dp"
-        android:layout_marginEnd="42dp" />
+        tools:ignore="RtlHardcoded" />
 
     <TextView
         android:id="@+id/textViewMessage3"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:layout_marginEnd="8dp"
         android:layout_marginLeft="8dp"
         android:layout_marginRight="8dp"
+        android:layout_marginStart="8dp"
         android:layout_marginTop="14dp"
         android:text="@string/message3"
         android:textAlignment="center"
@@ -53,27 +56,25 @@
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/imageViewlock"
-        android:layout_marginStart="8dp"
-        android:layout_marginEnd="8dp" />
+        app:layout_constraintTop_toBottomOf="@+id/imageViewlock" />
 
 
     <Button
         android:id="@+id/buttonConfirm"
-        android:layout_width="wrap_content"
+        android:layout_width="150dp"
         android:layout_height="wrap_content"
-        android:text="@string/btnconfirm"
-        android:textSize="18sp"
-        android:layout_marginStart="8dp"
-        android:layout_marginEnd="8dp"
-        tools:ignore="UnknownId"
-        app:layout_constraintBottom_toBottomOf="parent"
-        android:layout_marginBottom="16dp"
-        android:layout_marginRight="8dp"
-        app:layout_constraintRight_toRightOf="parent"
         android:layout_marginLeft="8dp"
+        android:layout_marginRight="8dp"
+        android:layout_marginTop="16dp"
+        android:background="@drawable/button_blue_bg_rounded_corners"
+        android:text="@string/btnconfirm"
+        android:textColor="@android:color/white"
+        android:textSize="18sp"
+        app:layout_constraintHorizontal_bias="0.928"
         app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintHorizontal_bias="0.928" />
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/pinviewTransactionPIN"
+        tools:ignore="UnknownId" />
 
     <com.goodiebag.pinview.Pinview
         android:id="@+id/pinviewTransactionPIN"
@@ -81,7 +82,7 @@
         android:layout_height="wrap_content"
         android:layout_marginLeft="8dp"
         android:layout_marginRight="8dp"
-        android:layout_marginTop="10dp"
+        android:layout_marginTop="16dp"
         app:cursorVisible="false"
         app:inputType="number"
         app:layout_constraintLeft_toLeftOf="parent"

@@ -16,7 +16,8 @@
         android:theme="@style/AppTheme">
         <activity
             android:name=".LoginActivity"
-            android:theme="@style/AppTheme.NoActionBar">
+            android:theme="@style/AppTheme.NoActionBar"
+            android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -26,42 +27,66 @@
         <activity
             android:name=".MainActivity"
             android:label="@string/title_activity_main"
-            android:theme="@style/AppTheme.NoActionBar" />
+            android:theme="@style/AppTheme.NoActionBar"
+            android:screenOrientation="portrait"/>
         <activity
             android:name=".SettingsActivity"
             android:label="Settings"
             android:parentActivityName=".MainActivity"
-            android:theme="@style/AppTheme" />
+            android:theme="@style/AppTheme"
+            android:screenOrientation="portrait"/>
         <activity
             android:name=".EditProfileActivity"
             android:label="Edit Profile"
             android:parentActivityName=".SettingsActivity"
-            android:theme="@style/AppTheme" />
+            android:theme="@style/AppTheme"
+            android:screenOrientation="portrait"/>
         <activity
             android:name=".WalletActivity"
             android:label="Wallet"
             android:parentActivityName=".MainActivity"
-            android:theme="@style/AppTheme" />
+            android:theme="@style/AppTheme.NoActionBar"
+            android:screenOrientation="portrait"/>
+        <activity
+            android:name=".AddNewCardActivity"
+            android:label="New Card"
+            android:parentActivityName=".WalletActivity"
+            android:theme="@style/AppTheme"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".TransactionHistoryActivity"
+            android:label="Transaction History"
+            android:parentActivityName=".WalletActivity"
+            android:theme="@style/AppTheme"
+            android:screenOrientation="portrait"></activity>
         <activity
             android:name=".RegisterActivity"
             android:label="Registration"
-            android:parentActivityName=".LoginActivity" />
+            android:parentActivityName=".LoginActivity"
+            android:screenOrientation="portrait"/>
         <activity
             android:name=".PINSetupActivity"
             android:label="PIN setup"
-            android:parentActivityName=".RegisterActivity" />
+            android:parentActivityName=".RegisterActivity"
+            android:screenOrientation="portrait"/>
         <activity
             android:name=".ChangePasswordActivity"
             android:label="Change Password"
-            android:parentActivityName=".SettingsActivity" />
+            android:parentActivityName=".SettingsActivity"
+            android:screenOrientation="portrait"/>
         <activity
             android:name=".ResetPINActivity"
             android:label="Reset PIN"
-            android:parentActivityName=".SettingsActivity" />
-        <activity android:name=".QRcodeScannerActivity"
+            android:parentActivityName=".SettingsActivity"
+            android:screenOrientation="portrait"/>
+        <activity
+            android:name=".QRcodeScannerActivity"
             android:label="QR Code Scanner"
-            android:parentActivityName=".MainActivity"></activity>
-        <meta-data android:name="com.google.android.gms.vision.DEPENDENCIES" android:value="barcode"/>
+            android:parentActivityName=".MainActivity"
+            android:screenOrientation="portrait"/>
+
+        <meta-data
+            android:name="com.google.android.gms.vision.DEPENDENCIES"
+            android:value="barcode" />
     </application>
 
 </manifest>

@@ -1,5 +1,6 @@
 package my.edu.tarc.assignment;
 
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -16,10 +17,26 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageButton;
 import android.widget.TextView;
+import android.widget.Toast;
+
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonObjectRequest;
+import com.android.volley.toolbox.Volley;
+
+import org.json.JSONObject;
+
+import my.edu.tarc.assignment.Model.User;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
+    public static final String TAG = "my.edu.tarc.assignment";
     private TextView textViewWelcome;
+    private Menu menu;
+    private ProgressDialog pDialog;
+    private RequestQueue queue;
+    private User user;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,6 +53,10 @@ public class MainActivity extends AppCompatActivity
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
+
+        pDialog = new ProgressDialog(this);
+        user = new User();
+        retrieveBalance(getApplicationContext(), getString(R.string.get_balance_url));
 
         View header = navigationView.getHeaderView(0);
         textViewWelcome = (TextView)header.findViewById(R.id.textViewWelcome);
@@ -115,6 +136,7 @@ public class MainActivity extends AppCompatActivity
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.main, menu);
+        this.menu = menu;
         return true;
     }
 
@@ -127,7 +149,8 @@ public class MainActivity extends AppCompatActivity
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_wallet || id == R.id.action_balance) {
-            return true;
+            Intent intent = new Intent(this, WalletActivity.class);
+            startActivity(intent);
         }
 
         return super.onOptionsItemSelected(item);
@@ -142,7 +165,8 @@ public class MainActivity extends AppCompatActivity
         if (id == R.id.nav_voucher) {
             // Handle the camera action
         } else if (id == R.id.nav_wallet) {
-
+            Intent intent = new Intent(this,WalletActivity.class);
+            startActivity(intent);
         } else if (id == R.id.nav_settings) {
             Intent intent = new Intent(MainActivity.this, SettingsActivity.class);
             startActivity(intent);
@@ -157,5 +181,50 @@ public class MainActivity extends AppCompatActivity
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
+    }
+
+    private void retrieveBalance(Context context, String url){
+        // Instantiate the RequestQueue
+        queue = Volley.newRequestQueue(context);
+
+        SharedPreferences pref = getSharedPreferences("loginInfo", Context.MODE_PRIVATE);
+        String username = pref.getString("username", "");
+
+        final JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(
+                url + username,null,
+                new Response.Listener<JSONObject>() {
+                    @Override
+                    public void onResponse(JSONObject response) {
+                        try{
+                            int success = response.getInt("success");
+                            if (success == 1){
+                                double balance = response.getDouble("balance");
+                                user.setBalance(balance);
+                            } else {
+                                String message = response.getString("message");
+                                Toast.makeText(getApplicationContext(), message, Toast.LENGTH_LONG).show();
+                            }
+                            loadBalance();
+                        } catch (Exception e){
+                            Toast.makeText(getApplicationContext(), "Error:" + e.getMessage(), Toast.LENGTH_LONG).show();
+                        }
+                    }
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError volleyError) {
+                        Toast.makeText(getApplicationContext(), "Error" + volleyError.getMessage(), Toast.LENGTH_LONG).show();
+                    }
+                });
+
+        // Set the tag on the request.
+        jsonObjectRequest.setTag(TAG);
+
+        // Add the request to the RequestQueue.
+        queue.add(jsonObjectRequest);
+    }
+
+    private void loadBalance(){
+        menu.getItem(0).setTitle(getString(R.string.balance)+ String.format("%.2f", user.getBalance()));
     }
 }

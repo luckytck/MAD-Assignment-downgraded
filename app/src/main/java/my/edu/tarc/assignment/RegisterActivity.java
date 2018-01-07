@@ -57,23 +57,8 @@ public class RegisterActivity extends AppCompatActivity {
             public void onClick(View v) {
 
                 if(!isEmptyField()){
-                    getUser(getApplicationContext(), getString(R.string.get_user_url));
-                    if(!CheckDuplicateUsername()){
-                        if(CheckPassword()){
-                            Intent intent=new Intent(RegisterActivity.this,PINSetupActivity.class);
-                            String username=editTextUsername2.getText().toString();
-                            String password=editTextPassword.getText().toString();
-                            String phoneNo=editTextPhoneNumber.getText().toString();
-                            String email=editTextEmailAddress.getText().toString();
-                            String name=editTextFullName.getText().toString();
-                            intent.putExtra(USER_USERNAME,username);
-                            intent.putExtra(USER_PASSWORD,password);
-                            intent.putExtra(USER_NAME,name);
-                            intent.putExtra(USER_EMAIL,email);
-                            intent.putExtra(USER_PHONENO,phoneNo);
-                            startActivity(intent);
-
-                        }
+                    if(CheckPassword()){
+                        getUser(getApplicationContext(), getString(R.string.get_user_url));
                     }
                 }
 
@@ -86,7 +71,7 @@ public class RegisterActivity extends AppCompatActivity {
         boolean isEmpty=false;
         String username = editTextUsername2.getText().toString();
         String password = editTextPassword.getText().toString();
-        String confirmpassword = editTextConfirmPassword.getText().toString();
+        String confirmPassword = editTextConfirmPassword.getText().toString();
         String email = editTextEmailAddress.getText().toString();
         String name = editTextFullName.getText().toString();
         String phoneNo = editTextPhoneNumber.getText().toString();
@@ -98,7 +83,7 @@ public class RegisterActivity extends AppCompatActivity {
             isEmpty=true;
             Toast.makeText(getApplicationContext(),"Error:"+"Password cannot be empty.",Toast.LENGTH_SHORT).show();
 
-        } else if (confirmpassword.isEmpty()) {
+        } else if (confirmPassword.isEmpty()) {
             isEmpty=true;
             Toast.makeText(getApplicationContext(),"Error:"+"Confirm Password cannot be empty.",Toast.LENGTH_SHORT).show();
 
@@ -113,10 +98,7 @@ public class RegisterActivity extends AppCompatActivity {
             } else if (email.isEmpty()) {
                 isEmpty = true;
                 Toast.makeText(getApplicationContext(), "Error:" + "Email cannot be empty.", Toast.LENGTH_SHORT).show();
-
-
         }
-
         return isEmpty;
     }
 
@@ -169,19 +151,30 @@ public class RegisterActivity extends AppCompatActivity {
         // Add the request to the RequestQueue.
         queue.add(jsonObjectRequest);
     }
-    public boolean CheckDuplicateUsername(){
+    public void CheckDuplicateUsername(){
         String username = editTextUsername2.getText().toString();
-    boolean isDuplicate=false;
+        boolean isDuplicate=false;
             for (int i = 0; i < userList.size(); i++) {
                 if (username.equalsIgnoreCase(userList.get(i).getUsername())) {
 
                     Toast.makeText(getApplicationContext(), "Error:" + "This username already exist.", Toast.LENGTH_SHORT).show();
                     isDuplicate=true;
-
                 }
             }
+        if(!isDuplicate){
+            String password=editTextPassword.getText().toString();
+            String phoneNo=editTextPhoneNumber.getText().toString();
+            String email=editTextEmailAddress.getText().toString();
+            String name=editTextFullName.getText().toString();
 
-        return isDuplicate;
+            Intent intent = new Intent(RegisterActivity.this, PINSetupActivity.class);
+            intent.putExtra(USER_USERNAME,username);
+            intent.putExtra(USER_PASSWORD,password);
+            intent.putExtra(USER_NAME,name);
+            intent.putExtra(USER_EMAIL,email);
+            intent.putExtra(USER_PHONENO,phoneNo);
+            startActivity(intent);
+        }
     }
     public boolean CheckPassword(){
         String password = editTextPassword.getText().toString();
@@ -194,10 +187,7 @@ public class RegisterActivity extends AppCompatActivity {
             }else{
                 Toast.makeText(getApplicationContext(),"Error:"+"ConfirmPassword must same with Password.",Toast.LENGTH_SHORT).show();
             }
-
-
-
-    return isValid;
+        return isValid;
     }
 
 

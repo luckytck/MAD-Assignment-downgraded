@@ -62,13 +62,7 @@ public class PINSetupActivity extends AppCompatActivity {
                     e.printStackTrace();
                     Toast.makeText(getApplicationContext(), "Error: " + e.getMessage(), Toast.LENGTH_LONG).show();
                 }
-
-
-
             }
-
-
-
             }
         });
 
@@ -77,7 +71,6 @@ public class PINSetupActivity extends AppCompatActivity {
     public void InsertUser(Context context,String url,final User user){
         //mPostCommentResponse.requestStarted();
         RequestQueue queue = Volley.newRequestQueue(context);
-
         //Send data
         try {
             StringRequest postRequest = new StringRequest(
@@ -95,7 +88,9 @@ public class PINSetupActivity extends AppCompatActivity {
                                     Toast.makeText(getApplicationContext(), message, Toast.LENGTH_LONG).show();
                                 }else{
                                     Toast.makeText(getApplicationContext(), message, Toast.LENGTH_LONG).show();
-                                    finish();
+                                    Intent intent = new Intent(PINSetupActivity.this, LoginActivity.class);
+                                    intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                                    startActivity(intent);
                                 }
                             } catch (JSONException e) {
                                 e.printStackTrace();

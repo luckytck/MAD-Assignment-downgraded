@@ -18,8 +18,6 @@
     <string name="prepaid_top_up">" Prepaid Top Up"</string>
     <string name="voucher">" Voucher"</string>
     <string name="scan_pay"><![CDATA[Scan & Pay]]></string>
-    <string name="get_user_url">http://easy-app.000webhostapp.com/select_user.php</string>
-    <string name="update_profile_url">http://easy-app.000webhostapp.com/update_profile.php</string>
     <string name="account_details">ACCOUNT DETAILS</string>
     <string name="settings_username">"Username\t\t\t\t: "</string>
     <string name="settings_name">"Full Name\t\t\t\t: "</string>
@@ -35,13 +33,19 @@
     <string name="save">Save</string>
     <string name="welcome">"Welcome, "</string>
     <string name="wallet_balance">WALLET BALANCE</string>
-    <string name="balance">RM0.00</string>
+    <string name="balance">"RM "</string>
     <string name="credit_debit_card">CREDIT/DEBIT CARD</string>
     <string name="top_up">Top Up</string>
-
+    <string name="add_new_card">Add new card</string>
+    <string name="card_details">CARD DETAILS</string>
+    <string name="card_holder_name">Card holder name</string>
+    <string name="card_number">Card number</string>
+    <string name="mm_yy">MM/YY</string>
+    <string name="cvv">CVV</string>
+    <string name="charge_message">A one time charge and refund of RM2 is needed to verify your card.</string>
+    <string name="history">History</string>
     <string name="registerstring">Register</string>
     <string name="massage">Please enter following details:</string>
-
     <string name="confirmpassword">Confirm Password</string>
     <string name="fullname">Full Name</string>
     <string name="phonenumber">Phone Number</string>
@@ -61,8 +65,16 @@
     <string name="NewPassword">New Password</string>
     <string name="ConfirmNewPassword">Confirm New Password</string>
     <string name="btnsave">Save</string>
+
     <string name="insert_user_url">https://easy-app.000webhostapp.com/insert_user.php</string>
     <string name="update_user_pin">https://easy-app.000webhostapp.com/update_pin.php</string>
     <string name="update_user_password">https://easy-app.000webhostapp.com/update_password.php</string>
+    <string name="get_user_url">http://easy-app.000webhostapp.com/select_user.php</string>
+    <string name="update_profile_url">http://easy-app.000webhostapp.com/update_profile.php</string>
+    <string name="get_card_url">http://easy-app.000webhostapp.com/select_card.php</string>
+    <string name="delete_card.url">http://easy-app.000webhostapp.com/delete_card.php</string>
+    <string name="insert_card_url">http://easy-app.000webhostapp.com/insert_card.php</string>
+    <string name="get_balance_url">http://easy-app.000webhostapp.com/get_balance.php?username=</string>
+    <string name="history_icon">Hisotry Icon</string>
 
 </resources>

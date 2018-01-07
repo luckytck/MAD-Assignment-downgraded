@@ -54,6 +54,8 @@ public class EditProfileActivity extends AppCompatActivity {
                 String email = editTextEmail.getText().toString();
                 if (name.isEmpty() || contactNo.isEmpty() || email.isEmpty()){
                     Toast.makeText(getApplicationContext(), "Please fill in all the fields", Toast.LENGTH_LONG).show();
+                } else if (!contactNo.matches("^01[0-9]{1}\\-?[0-9]{7,8}$")){
+                    Toast.makeText(getApplicationContext(), "Invalid contact number, please enter a valid format: 01x-xxxxxxx", Toast.LENGTH_LONG).show();
                 } else {
                     User user = new User();
                     user.setUsername(username);
