@@ -80,7 +80,7 @@
             android:parentActivityName=".SettingsActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".QRcodeScannerActivity"
+            android:name=".QRCodeScannerActivity"
             android:label="QR Code Scanner"
             android:parentActivityName=".MainActivity"
             android:screenOrientation="portrait" />
