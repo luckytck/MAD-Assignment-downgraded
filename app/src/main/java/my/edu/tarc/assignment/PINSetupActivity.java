@@ -6,7 +6,6 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.Toast;
 
 import com.android.volley.AuthFailureError;
@@ -26,8 +25,6 @@ import java.util.Map;
 
 import my.edu.tarc.assignment.Model.User;
 
-import static my.edu.tarc.assignment.R.string.btnconfirm;
-
 public class PINSetupActivity extends AppCompatActivity {
 
 
@@ -41,7 +38,7 @@ public class PINSetupActivity extends AppCompatActivity {
         buttonnconfirm.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Pinview PIN=(Pinview)findViewById(R.id.pinviewTransactionPIN);
+                Pinview PIN=(Pinview)findViewById(R.id.pinviewTopUpPIN);
             if(PIN.getValue().length()<6){
                 Toast.makeText(getApplicationContext(),"Error:"+"Please fill up 6-Digit PIN.",Toast.LENGTH_SHORT).show();
             }else{

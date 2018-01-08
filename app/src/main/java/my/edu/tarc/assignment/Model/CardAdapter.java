@@ -112,7 +112,7 @@ public class CardAdapter extends BaseAdapter {
                 cardTitle = "Mastercard **** ";
             } else if (CardType.detect(cardItem.getCardNumber()+ "") == CardType.VISA){
                 holder.imageViewMerchant.setImageResource(R.drawable.visa_logo);
-                cardTitle = "VisaCard **** ";
+                cardTitle = "Visacard **** ";
             }
             cardTitle += cardItem.getCardNumber().substring(12);
             holder.textViewCard.setText(cardTitle);

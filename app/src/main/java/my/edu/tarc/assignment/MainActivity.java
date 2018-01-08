@@ -27,6 +27,9 @@ import com.android.volley.toolbox.Volley;
 
 import org.json.JSONObject;
 
+import java.util.Currency;
+import java.util.Locale;
+
 import my.edu.tarc.assignment.Model.User;
 
 public class MainActivity extends AppCompatActivity
@@ -96,7 +99,7 @@ public class MainActivity extends AppCompatActivity
 
             }
         });
-        //Image button for voucher
+        //Image button for voucher_layout
         ImageButton imageButtonSteam = (ImageButton)findViewById(R.id.imageButtonSteam);
         imageButtonSteam.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -225,6 +228,8 @@ public class MainActivity extends AppCompatActivity
     }
 
     private void loadBalance(){
-        menu.getItem(0).setTitle(getString(R.string.balance)+ String.format("%.2f", user.getBalance()));
+        //Currency currency = Currency.getInstance(Locale.getDefault());
+        //String symbol = currency.getSymbol();
+        menu.getItem(0).setTitle(getString(R.string.balance) + String.format("%.2f", user.getBalance()));
     }
 }

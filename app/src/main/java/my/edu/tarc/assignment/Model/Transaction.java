@@ -10,16 +10,16 @@ public class Transaction {
     private String imageMerchant;
     private String title;
     private double amount;
-    private GregorianCalendar transactionDate;
+    private String username;
 
     public Transaction() {
     }
 
-    public Transaction(String imageMerchant, String title, double amount, GregorianCalendar transactionDate) {
+    public Transaction(String imageMerchant, String title, double amount, String username) {
         this.imageMerchant = imageMerchant;
         this.title = title;
         this.amount = amount;
-        this.transactionDate = transactionDate;
+        this.username = username;
     }
 
     public String getImageMerchant() {
@@ -46,12 +46,12 @@ public class Transaction {
         this.amount = amount;
     }
 
-    public GregorianCalendar getTransactionDate() {
-        return transactionDate;
+    public String getUsername() {
+        return username;
     }
 
-    public void setTransactionDate(GregorianCalendar transactionDate) {
-        this.transactionDate = transactionDate;
+    public void setUsername(String username) {
+        this.username = username;
     }
 
     @Override
@@ -60,7 +60,7 @@ public class Transaction {
                 "imageMerchant='" + imageMerchant + '\'' +
                 ", title='" + title + '\'' +
                 ", amount=" + amount +
-                ", transactionDate=" + transactionDate +
+                ", username='" + username + '\'' +
                 '}';
     }
 }

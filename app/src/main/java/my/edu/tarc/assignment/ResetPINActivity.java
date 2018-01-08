@@ -1,8 +1,6 @@
 package my.edu.tarc.assignment;
 
-import android.app.ProgressDialog;
 import android.content.Context;
-import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -54,7 +52,7 @@ public class ResetPINActivity extends AppCompatActivity {
             public void onClick(View view) {
                 SharedPreferences pref = getSharedPreferences("loginInfo", Context.MODE_PRIVATE);
                 String username = pref.getString("username", "");
-                Pinview pinview=(Pinview)findViewById(R.id.pinviewTransactionPIN);
+                Pinview pinview=(Pinview)findViewById(R.id.pinviewTopUpPIN);
                 String PIN = pinview.getValue().toString();
                 String password = editTextPassword.getText().toString();
                 if (PIN.isEmpty() || PIN.length()<6){

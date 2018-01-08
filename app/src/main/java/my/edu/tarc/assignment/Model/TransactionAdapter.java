@@ -14,7 +14,9 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import java.io.ByteArrayOutputStream;
+import java.util.Currency;
 import java.util.List;
+import java.util.Locale;
 
 import my.edu.tarc.assignment.R;
 
@@ -54,6 +56,16 @@ public class TransactionAdapter extends BaseAdapter{
     }
 
     @Override
+    public int getViewTypeCount() {
+        return getCount();
+    }
+
+    @Override
+    public int getItemViewType(int position) {
+        return position;
+    }
+
+    @Override
     public View getView(int position, View convertView, ViewGroup viewGroup) {
         ViewHolder holder = null;
         LayoutInflater mInflater = (LayoutInflater) context
@@ -77,7 +89,9 @@ public class TransactionAdapter extends BaseAdapter{
                 holder.textViewAmount.setTextColor(Color.parseColor("#F44336"));
                 amount = "-";
             }
-            amount += String.format("RM %.2f", Math.abs(transaction.getAmount()));
+            //Currency currency = Currency.getInstance(Locale.getDefault());
+            //String symbol = currency.getSymbol();
+            amount += context.getString(R.string.balance) + String.format("%.2f", Math.abs(transaction.getAmount()));
             holder.textViewAmount.setText(amount);
 
             ByteArrayOutputStream baos = new ByteArrayOutputStream();
@@ -88,6 +102,7 @@ public class TransactionAdapter extends BaseAdapter{
 
             holder.imageViewMerchant.setImageBitmap(decodedImage);
 
+            convertView.setTag(holder);
         } else {
             holder = (ViewHolder) convertView.getTag();
         }

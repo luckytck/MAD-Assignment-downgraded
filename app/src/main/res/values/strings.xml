@@ -33,7 +33,7 @@
     <string name="save">Save</string>
     <string name="welcome">"Welcome, "</string>
     <string name="wallet_balance">WALLET BALANCE</string>
-    <string name="balance">"RM "</string>
+    <string name="balance">"RM"</string>
     <string name="credit_debit_card">CREDIT/DEBIT CARD</string>
     <string name="top_up">Top Up</string>
     <string name="add_new_card">Add new card</string>
@@ -75,6 +75,12 @@
     <string name="delete_card.url">http://easy-app.000webhostapp.com/delete_card.php</string>
     <string name="insert_card_url">http://easy-app.000webhostapp.com/insert_card.php</string>
     <string name="get_balance_url">http://easy-app.000webhostapp.com/get_balance.php?username=</string>
+    <string name="get_transaction_url">http://easy-app.000webhostapp.com/select_transaction.php</string>
     <string name="history_icon">Hisotry Icon</string>
+    <string name="min_amount">Min. RM 10</string>
+    <string name="top_up_amount">TOP UP AMOUNT</string>
+    <string name="wallet_top_up">Wallet Top Up</string>
+    <string name="insert_transaction_url">https://easy-app.000webhostapp.com/insert_transaction.php</string>
+    <string name="update_balance_url">https://easy-app.000webhostapp.com/update_balance.php</string>
 
 </resources>

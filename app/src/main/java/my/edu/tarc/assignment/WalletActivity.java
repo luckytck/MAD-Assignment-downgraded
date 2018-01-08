@@ -10,33 +10,32 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonArrayRequest;
 import com.android.volley.toolbox.JsonObjectRequest;
-import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 
 import org.json.JSONArray;
-import org.json.JSONException;
 import org.json.JSONObject;
-import org.w3c.dom.Text;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import my.edu.tarc.assignment.Model.Card;
 import my.edu.tarc.assignment.Model.CardAdapter;
+import my.edu.tarc.assignment.Model.CardType;
 import my.edu.tarc.assignment.Model.User;
 
 public class WalletActivity extends AppCompatActivity {
     public static final String TAG = "my.edu.tarc.assignment";
+    public static final String CARD_TITLE_ARRAY = "card title array";
     private TextView textViewBalance;
     private ListView listViewCard;
     private List<Card> cardList;
@@ -61,6 +60,31 @@ public class WalletActivity extends AppCompatActivity {
 
         downloadCard(getApplicationContext(),getString(R.string.get_card_url));
         retrieveBalance(getApplicationContext(), getString(R.string.get_balance_url));
+
+        Button buttonTopUp = (Button)findViewById(R.id.buttonTopUp);
+        buttonTopUp.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (cardList.size() > 0){
+                    Intent intent = new Intent(WalletActivity.this, TopUpActivity.class);
+                    String[] cardTitle = new String[cardList.size()];
+                    for (int i = 0; i < cardList.size(); i++){
+                        String cardNumber = cardList.get(i).getCardNumber();
+                        if (CardType.detect(cardNumber) == CardType.MASTERCARD){
+                            cardTitle[i] = "Mastercard ****";
+                        } else if (CardType.detect(cardNumber) == CardType.VISA){
+                            cardTitle[i] = "Visacard ****";
+                        }
+                        cardTitle[i] += cardNumber.substring(12);
+                    }
+                    intent.putExtra(CARD_TITLE_ARRAY, cardTitle);
+                    startActivity(intent);
+                } else {
+                    Toast.makeText(getApplicationContext(), "Sorry, please add a credit/debit card first.", Toast.LENGTH_LONG).show();
+                }
+
+            }
+        });
     }
 
     private void downloadCard(Context context, String url){
@@ -164,6 +188,8 @@ public class WalletActivity extends AppCompatActivity {
     }
 
     private void loadBalance(){
+        //Currency currency = Currency.getInstance(Locale.getDefault());
+        //String symbol = currency.getSymbol();
         textViewBalance.setText(getString(R.string.balance) + String.format("%.2f", user.getBalance()));
     }
 

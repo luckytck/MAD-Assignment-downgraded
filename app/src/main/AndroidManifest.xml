@@ -16,8 +16,8 @@
         android:theme="@style/AppTheme">
         <activity
             android:name=".LoginActivity"
-            android:theme="@style/AppTheme.NoActionBar"
-            android:screenOrientation="portrait">
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -27,62 +27,68 @@
         <activity
             android:name=".MainActivity"
             android:label="@string/title_activity_main"
-            android:theme="@style/AppTheme.NoActionBar"
-            android:screenOrientation="portrait"/>
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".SettingsActivity"
             android:label="Settings"
             android:parentActivityName=".MainActivity"
-            android:theme="@style/AppTheme"
-            android:screenOrientation="portrait"/>
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme" />
         <activity
             android:name=".EditProfileActivity"
             android:label="Edit Profile"
             android:parentActivityName=".SettingsActivity"
-            android:theme="@style/AppTheme"
-            android:screenOrientation="portrait"/>
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme" />
         <activity
             android:name=".WalletActivity"
             android:label="Wallet"
             android:parentActivityName=".MainActivity"
-            android:theme="@style/AppTheme.NoActionBar"
-            android:screenOrientation="portrait"/>
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".AddNewCardActivity"
             android:label="New Card"
             android:parentActivityName=".WalletActivity"
-            android:theme="@style/AppTheme"
-            android:screenOrientation="portrait"/>
-        <activity android:name=".TransactionHistoryActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme" />
+        <activity
+            android:name=".TransactionHistoryActivity"
             android:label="Transaction History"
             android:parentActivityName=".WalletActivity"
-            android:theme="@style/AppTheme"
-            android:screenOrientation="portrait"></activity>
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme" />
         <activity
             android:name=".RegisterActivity"
             android:label="Registration"
             android:parentActivityName=".LoginActivity"
-            android:screenOrientation="portrait"/>
+            android:screenOrientation="portrait" />
         <activity
             android:name=".PINSetupActivity"
             android:label="PIN setup"
             android:parentActivityName=".RegisterActivity"
-            android:screenOrientation="portrait"/>
+            android:screenOrientation="portrait" />
         <activity
             android:name=".ChangePasswordActivity"
             android:label="Change Password"
             android:parentActivityName=".SettingsActivity"
-            android:screenOrientation="portrait"/>
+            android:screenOrientation="portrait" />
         <activity
             android:name=".ResetPINActivity"
             android:label="Reset PIN"
             android:parentActivityName=".SettingsActivity"
-            android:screenOrientation="portrait"/>
+            android:screenOrientation="portrait" />
         <activity
             android:name=".QRcodeScannerActivity"
             android:label="QR Code Scanner"
             android:parentActivityName=".MainActivity"
-            android:screenOrientation="portrait"/>
+            android:screenOrientation="portrait" />
+        <activity android:name=".TopUpActivity"
+            android:label="Top Up"
+            android:parentActivityName=".WalletActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme"></activity>
 
         <meta-data
             android:name="com.google.android.gms.vision.DEPENDENCIES"
