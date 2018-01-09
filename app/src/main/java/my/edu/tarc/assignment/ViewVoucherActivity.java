@@ -2,9 +2,12 @@ package my.edu.tarc.assignment;
 
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.Toast;
 
@@ -23,6 +26,7 @@ import java.util.Date;
 import java.util.List;
 
 import my.edu.tarc.assignment.Model.Voucher;
+import my.edu.tarc.assignment.Model.VoucherAdapter;
 import my.edu.tarc.assignment.Model.VoucherOrder;
 
 public class ViewVoucherActivity extends AppCompatActivity {
@@ -30,59 +34,94 @@ public class ViewVoucherActivity extends AppCompatActivity {
     private List<Voucher> voucherList;
     private List<VoucherOrder> voucherOrderList;
     private RequestQueue queue;
-    private ProgressDialog pDialog;
+    public final static String VOUCHER_CODE="voucher code";
+    public final static String VOUCHER_TYPE="voucher type";
+    public final static String VOUCHER_AMOUNT="voucher amount";
+    public final static String VOUCHER_EXPIRYDATE="voucher expiryDate";
+
     private String loginUsername;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_view_voucher);
-     /*   pDialog = new ProgressDialog(this);
+
         voucherList = new ArrayList<>();
+        voucherOrderList = new ArrayList<>();
+        listViewVoucher = (ListView)findViewById(R.id.listViewVoucherList);
         SharedPreferences pref = getSharedPreferences("loginInfo", Context.MODE_PRIVATE);
         loginUsername = pref.getString("username", "");
-        listViewVoucher = (ListView)findViewById(R.id.listViewVoucher);
+        downloadVoucher(getApplicationContext(),getString(R.string.select_voucher));
         downloadVoucherOrder(getApplicationContext(),getString(R.string.select_voucherOrder));
+        List<VoucherOrder> userVoucherOrderList=new ArrayList<>();
         for(int i=0;i<voucherOrderList.size();++i){
-            if(!voucherOrderList.get(i).getUsername().equalsIgnoreCase(loginUsername)){
-                voucherOrderList.remove(i);
+            if(voucherOrderList.get(i).getUsername().equalsIgnoreCase(loginUsername)){
+                userVoucherOrderList.add(voucherOrderList.get(i));
             }
         }
-        downloadVoucher(getApplicationContext(),getString(R.string.select_voucher));
-        List<Voucher> voucherUser=getVoucher();*/
-        //VoucherAdapter voucherAdapter = new VoucherAdapter(getApplicationContext(),voucherUser);
-        //listViewVoucher.setAdapter(voucherAdapter);
+        List<Voucher> userVoucherList= new ArrayList<>();
 
-
-
-    }
-    @Override
-    protected void onResume() {
-       /* downloadVoucherOrder(getApplicationContext(),getString(R.string.select_voucherOrder));
-        for(int i=0;i<voucherOrderList.size();++i){
-            if(!voucherOrderList.get(i).getUsername().equalsIgnoreCase(loginUsername)){
-                voucherOrderList.remove(i);
-            }
-        }
-        downloadVoucher(getApplicationContext(),getString(R.string.select_voucher));
-        List<Voucher> voucherUser=getVoucher();
-        VoucherAdapter voucherAdapter = new VoucherAdapter(getApplicationContext(),voucherList);
-        listViewVoucher.setAdapter(voucherAdapter);*/
-        super.onResume();
-    }
-
-    private List<Voucher> getVoucher(){
-        List<Voucher> voucherUser=new ArrayList<>();
-        for (int i=0;i<voucherList.size();++i){
-            for(int j=0;j<voucherOrderList.size();++j){
-                if(voucherList.get(i).getVoucherCode().equals(voucherOrderList.get(j).getVoucherCode())){
-                    voucherUser.add(voucherList.get(i));
+        for(int j=0;j<userVoucherOrderList.size();++j){
+            for(int i=0;i<voucherList.size();++i){
+                if(userVoucherOrderList.get(j).getVoucherCode().equals(voucherList.get(i).getVoucherCode())){
+                    userVoucherList.add(voucherList.get(i));
                 }
             }
-           }
-           return voucherUser;
+
+        }
+
+
+        final VoucherAdapter voucherAdapter = new VoucherAdapter(getApplicationContext(),userVoucherList);
+        listViewVoucher.setAdapter(voucherAdapter);
+
+listViewVoucher.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+    @Override
+    public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+        Voucher item = (Voucher) voucherAdapter.getItem(i);
+        Intent intent = new Intent(ViewVoucherActivity.this,ShowVoucherActivity.class);
+        intent.putExtra(VOUCHER_CODE,item.getVoucherCode());
+        intent.putExtra(VOUCHER_AMOUNT,String.format("%d",(int)item.getAmount()));
+        SimpleDateFormat formatter=new SimpleDateFormat("yyyy-MM-dd");
+        intent.putExtra(VOUCHER_EXPIRYDATE,formatter.format(item.getExpiryDate()));
+        intent.putExtra(VOUCHER_TYPE,item.getVoucherType());
+        startActivity(intent);
+
+    }
+});
+
+
+
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        SharedPreferences pref = getSharedPreferences("loginInfo", Context.MODE_PRIVATE);
+        loginUsername = pref.getString("username", "");
+        downloadVoucher(getApplicationContext(),getString(R.string.select_voucher));
+        downloadVoucherOrder(getApplicationContext(),getString(R.string.select_voucherOrder));
+        List<VoucherOrder> userVoucherOrderList=new ArrayList<>();
+        for(int i=0;i<voucherOrderList.size();++i){
+            if(voucherOrderList.get(i).getUsername().equalsIgnoreCase(loginUsername)){
+                userVoucherOrderList.add(voucherOrderList.get(i));
+            }
+        }
+        List<Voucher> userVoucherList= new ArrayList<>();
+
+        for(int j=0;j<userVoucherOrderList.size();++j){
+            for(int i=0;i<voucherList.size();++i){
+                if(userVoucherOrderList.get(j).getVoucherCode().equals(voucherList.get(i).getVoucherCode())){
+                    userVoucherList.add(voucherList.get(i));
+                }
+            }
+
+        }
+
+
+        VoucherAdapter voucherAdapter = new VoucherAdapter(getApplicationContext(),userVoucherList);
+        listViewVoucher.setAdapter(voucherAdapter);
+
+    }
 
     private void downloadVoucherOrder(Context context, String url){
         // Instantiate the RequestQueue
@@ -115,8 +154,7 @@ public class ViewVoucherActivity extends AppCompatActivity {
                     @Override
                     public void onErrorResponse(VolleyError volleyError) {
                         Toast.makeText(getApplicationContext(), "Error" + volleyError.getMessage(), Toast.LENGTH_LONG).show();
-                        if (pDialog.isShowing())
-                            pDialog.dismiss();
+
                     }
                 });
 

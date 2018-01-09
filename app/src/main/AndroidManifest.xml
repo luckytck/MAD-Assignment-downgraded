@@ -127,10 +127,16 @@
             android:parentActivityName=".MainActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme" />
-        <activity android:name=".PurcahseVoucherSuccessfulActivity"
+        <activity
+            android:name=".PurcahseVoucherSuccessfulActivity"
             android:label="Voucher Code"
-            android:theme="@style/AppTheme"
             android:parentActivityName=".PurchaseVoucherActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme" />
+        <activity android:name=".ShowVoucherActivity"
+            android:label="Voucher Details"
+            android:parentActivityName=".ViewVoucherActivity"
+            android:theme="@style/AppTheme"
             android:screenOrientation="portrait"></activity>
     </application>
 

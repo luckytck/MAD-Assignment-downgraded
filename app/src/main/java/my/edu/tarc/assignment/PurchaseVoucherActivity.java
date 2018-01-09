@@ -254,7 +254,7 @@ public class PurchaseVoucherActivity extends AppCompatActivity implements Adapte
 
                                Voucher v=new Voucher(voucherCode,voucherType,amount,expiryDate,status);
                                 if(voucherType.equalsIgnoreCase(vouchertype) && status.equalsIgnoreCase("available")
-                                        && amount==purchaseAmount && System.currentTimeMillis() <expiryDate.getTime()){
+                                        && (int)amount==(int)purchaseAmount && System.currentTimeMillis() <expiryDate.getTime()){
                                     voucherList.add(v);
                                 }
 
