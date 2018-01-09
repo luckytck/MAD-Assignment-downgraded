@@ -44,7 +44,7 @@ public class VoucherOrder {
     public Date getOrderDate(){
         return orderDate;
     }
-    public void setUsername(){
+    public void setUsername(String username){
         this.username=username;
     }
     public String getUsername(){

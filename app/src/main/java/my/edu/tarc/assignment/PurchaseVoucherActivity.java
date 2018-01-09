@@ -1,5 +1,6 @@
 package my.edu.tarc.assignment;
 
+
 import android.app.ProgressDialog;
 import android.app.TaskStackBuilder;
 import android.content.Context;
@@ -9,12 +10,11 @@ import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
-import android.net.wifi.aware.PublishConfig;
 import android.os.Build;
+import android.os.Bundle;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.graphics.drawable.DrawableCompat;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.util.Base64;
 import android.view.View;
 import android.widget.AdapterView;
@@ -31,7 +31,6 @@ import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonArrayRequest;
-import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.goodiebag.pinview.Pinview;
@@ -53,7 +52,7 @@ import my.edu.tarc.assignment.Model.User;
 import my.edu.tarc.assignment.Model.Voucher;
 import my.edu.tarc.assignment.Model.VoucherOrder;
 
-public class PurchaseVoucherActivity extends AppCompatActivity {
+public class PurchaseVoucherActivity extends AppCompatActivity implements AdapterView.OnItemSelectedListener{
     public final static String VOUCHER_AMOUNT ="voucher amount";
     public final static String VOUCHER_TYPE="voucher type";
     public final static String VOUCHER_CODE="voucher code";
@@ -101,7 +100,7 @@ public class PurchaseVoucherActivity extends AppCompatActivity {
                         R.array.purchase_amount,
                         android.R.layout.simple_spinner_item
                 );
-        adapter.setDropDownViewResource(android.R.layout.simple_dropdown_item_1line);
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinnerPurchaseAmount.setOnItemSelectedListener((AdapterView.OnItemSelectedListener) this);
         spinnerPurchaseAmount.setAdapter(adapter);
 
@@ -142,6 +141,16 @@ public class PurchaseVoucherActivity extends AppCompatActivity {
 
 
     }
+    @Override
+    public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+        ((TextView) adapterView.getChildAt(0)).setTextColor(Color.BLUE);
+        ((TextView) adapterView.getChildAt(0)).setTextSize(18);
+    }
+
+    @Override
+    public void onNothingSelected(AdapterView<?> adapterView) {
+
+    }
     private void validatePIN(final Context context, String url){
         // Instantiate the RequestQueue
         queue = Volley.newRequestQueue(context);
@@ -176,15 +185,17 @@ public class PurchaseVoucherActivity extends AppCompatActivity {
                             }
                             if (isValidPin){
                                 if (user.getBalance() >= purchaseAmount){
-                                    getVouhcer(context, getString(R.string.select_voucher));
+                                    getVoucher(context, getString(R.string.select_voucher));
                                     if(voucherList.size()>0){
 
                                         voucherList.get(0).setStatus("unavailable");
                                         updateVoucherStatus(getApplicationContext(),getString(R.string.update_voucher_status),voucherList.get(0));
-                                        getVouhcerOrder(getApplicationContext(),getString(R.string.select_voucherOrder));
-                                        int id=voucherOrderList.get(voucherOrderList.size()-1).getId()+1;
+                                        getVoucherOrder(getApplicationContext(),getString(R.string.select_voucherOrder));
 
-                                        VoucherOrder voucherOrder= new VoucherOrder(id,voucherList.get(0).getVoucherCode(),user.getUsername());
+
+                                        VoucherOrder voucherOrder=new VoucherOrder();
+                                        voucherOrder.setUsername(loginUsername);
+                                        voucherOrder.setVoucherCode(voucherList.get(0).getVoucherCode());
                                         insertVoucherOrder(getApplicationContext(),getString(R.string.insert_voucherOrder),voucherOrder);
                                         user.setBalance(user.getBalance()-purchaseAmount);
                                         updateBalance(getApplicationContext(),getString(R.string.update_balance_url),user);
@@ -221,7 +232,7 @@ public class PurchaseVoucherActivity extends AppCompatActivity {
         queue.add(jsonObjectRequest);
     }
 
-    private void getVouhcer(final Context context, String url){
+    private void getVoucher(final Context context, String url){
         // Instantiate the RequestQueue
         queue = Volley.newRequestQueue(context);
 
@@ -242,7 +253,8 @@ public class PurchaseVoucherActivity extends AppCompatActivity {
                                 String status = userResponse.getString("status");
 
                                Voucher v=new Voucher(voucherCode,voucherType,amount,expiryDate,status);
-                                if(voucherType.equalsIgnoreCase(vouchertype) && status.equalsIgnoreCase("available")){
+                                if(voucherType.equalsIgnoreCase(vouchertype) && status.equalsIgnoreCase("available")
+                                        && amount==purchaseAmount && System.currentTimeMillis() <expiryDate.getTime()){
                                     voucherList.add(v);
                                 }
 
@@ -266,7 +278,7 @@ public class PurchaseVoucherActivity extends AppCompatActivity {
         // Add the request to the RequestQueue.
         queue.add(jsonObjectRequest);
     }
-    private void getVouhcerOrder(final Context context, String url){
+    private void getVoucherOrder(final Context context, String url){
         // Instantiate the RequestQueue
         queue = Volley.newRequestQueue(context);
 
@@ -398,7 +410,7 @@ voucherOrderList.clear();
                 @Override
                 protected Map<String, String> getParams() {
                     Map<String, String> params = new HashMap<>();
-                    params.put("id",String.valueOf(voucherOrder.getId()));
+
                     params.put("voucherCode",voucherOrder.getVoucherCode());
                     params.put("username", voucherOrder.getUsername());
                     return params;
@@ -498,7 +510,7 @@ voucherOrderList.clear();
                                 if (success==0) {
                                     Toast.makeText(getApplicationContext(), "Insert transaction failed.", Toast.LENGTH_LONG).show();
                                 }else{
-                                    Toast.makeText(getApplicationContext(), "Top up successful.", Toast.LENGTH_SHORT).show();
+                                    Toast.makeText(getApplicationContext(), "Purchase successful.", Toast.LENGTH_SHORT).show();
                                     Intent intent = new Intent(context, PurcahseVoucherSuccessfulActivity.class);
                                     intent.putExtra(VOUCHER_AMOUNT,spinnerPurchaseAmount.getSelectedItem().toString());
                                     intent.putExtra(VOUCHER_TYPE,vouchertype);
