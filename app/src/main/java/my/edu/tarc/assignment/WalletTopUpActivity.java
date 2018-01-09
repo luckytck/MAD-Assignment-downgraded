@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
+import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.support.v4.content.ContextCompat;
@@ -14,10 +15,12 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Base64;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.android.volley.AuthFailureError;
@@ -41,7 +44,7 @@ import java.util.Map;
 import my.edu.tarc.assignment.Model.Transaction;
 import my.edu.tarc.assignment.Model.User;
 
-public class WalletTopUpActivity extends AppCompatActivity {
+public class WalletTopUpActivity extends AppCompatActivity implements AdapterView.OnItemSelectedListener{
     public static final String TAG = "my.edu.tarc.assignment";
     private EditText editTextTopUpAmount;
     private double amount;
@@ -65,6 +68,7 @@ public class WalletTopUpActivity extends AppCompatActivity {
         String[] cardTitle = intent.getStringArrayExtra(WalletActivity.CARD_TITLE_ARRAY);
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, cardTitle);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spinnerCard.setOnItemSelectedListener(this);
         spinnerCard.setAdapter(adapter);
 
         Button buttonConfirmTopUp = (Button)this.findViewById(R.id.buttonConfirmTopUp);
@@ -78,7 +82,7 @@ public class WalletTopUpActivity extends AppCompatActivity {
                 } else {
                     amount = Double.parseDouble(editTextTopUpAmount.getText().toString());
                     if (amount < 10) {
-                        Toast.makeText(getApplicationContext(), "Sorry, minimum top up value is RM10.", Toast.LENGTH_LONG).show();
+                        Toast.makeText(getApplicationContext(), "Sorry, minimum top up amount is RM10.", Toast.LENGTH_LONG).show();
                     } else if (pinviewTopUpPin.getValue().length() < 6) {
                         Toast.makeText(getApplicationContext(),"Please fill up 6-Digit PIN.",Toast.LENGTH_SHORT).show();
                     } else {
@@ -87,6 +91,17 @@ public class WalletTopUpActivity extends AppCompatActivity {
                 }
             }
         });
+    }
+
+    @Override
+    public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+        ((TextView) adapterView.getChildAt(0)).setTextColor(Color.BLUE);
+        ((TextView) adapterView.getChildAt(0)).setTextSize(18);
+    }
+
+    @Override
+    public void onNothingSelected(AdapterView<?> adapterView) {
+
     }
 
     private void processTopUp(){

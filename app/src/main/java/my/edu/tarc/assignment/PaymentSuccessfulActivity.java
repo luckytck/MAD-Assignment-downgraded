@@ -27,7 +27,7 @@ public class PaymentSuccessfulActivity extends AppCompatActivity {
         buttonViewTransactionHistory.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                TaskStackBuilder.create(PaymentSuccessfulActivity.this)
+                TaskStackBuilder.create(PaymentSuccessfulActivity.this)//Create a new stack of activities
                         .addNextIntentWithParentStack(new Intent(PaymentSuccessfulActivity.this, MainActivity.class))
                         .addNextIntentWithParentStack(new Intent(PaymentSuccessfulActivity.this, WalletActivity.class))
                         .addNextIntentWithParentStack(new Intent(PaymentSuccessfulActivity.this, TransactionHistoryActivity.class))

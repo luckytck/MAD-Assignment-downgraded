@@ -7,6 +7,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
+import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.media.Image;
 import android.os.Build;
@@ -16,11 +17,13 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Base64;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.android.volley.AuthFailureError;
@@ -45,7 +48,7 @@ import java.util.Map;
 import my.edu.tarc.assignment.Model.Transaction;
 import my.edu.tarc.assignment.Model.User;
 
-public class PrepaidTopUpActivity extends AppCompatActivity {
+public class PrepaidTopUpActivity extends AppCompatActivity implements AdapterView.OnItemSelectedListener{
     public static final String TAG = "my.edu.tarc.assignment";
     private Spinner spinnerReloadAmount;
     private ImageView imageViewTelco;
@@ -95,7 +98,7 @@ public class PrepaidTopUpActivity extends AppCompatActivity {
                         android.R.layout.simple_spinner_item
                 );
         adapter.setDropDownViewResource(android.R.layout.simple_dropdown_item_1line);
-        //spinnerReloadAmount.setOnItemSelectedListener(this);
+        spinnerReloadAmount.setOnItemSelectedListener(this);
         spinnerReloadAmount.setAdapter(adapter);
 
         Button buttonConfirm = (Button)findViewById(R.id.buttonConfirm);
@@ -127,13 +130,24 @@ public class PrepaidTopUpActivity extends AppCompatActivity {
                         default:
                             reloadAmount = 0;
                     }
-                    processTopUp(telcoName);
+                    processTopUp();
                 }
             }
         });
     }
 
-    private void processTopUp(String telcoName) {
+    @Override
+    public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+        ((TextView) adapterView.getChildAt(0)).setTextColor(Color.BLUE);
+        ((TextView) adapterView.getChildAt(0)).setTextSize(18);
+    }
+
+    @Override
+    public void onNothingSelected(AdapterView<?> adapterView) {
+
+    }
+
+    private void processTopUp() {
         validatePIN(getApplicationContext(), getString(R.string.get_user_url));
     }
 
@@ -388,7 +402,7 @@ public class PrepaidTopUpActivity extends AppCompatActivity {
                                     Intent intent = new Intent(context, PaymentSuccessfulActivity.class);
                                     intent.putExtra(MainActivity.PAYMENT_TITLE, spinnerReloadAmount.getSelectedItem() +
                                             " has been top up to " + editTextPhoneNo.getText().toString());
-                                    TaskStackBuilder.create(PrepaidTopUpActivity.this)
+                                    TaskStackBuilder.create(PrepaidTopUpActivity.this)//Create a new stack of activities
                                             .addNextIntentWithParentStack(new Intent(PrepaidTopUpActivity.this, MainActivity.class))
                                             .addNextIntentWithParentStack(intent)
                                             .startActivities();
@@ -428,7 +442,7 @@ public class PrepaidTopUpActivity extends AppCompatActivity {
             e.printStackTrace();
         }
     }
-
+    //Convert bitmap image to string
     public String getStringImage(Bitmap bmp) {
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
         bmp.compress(Bitmap.CompressFormat.JPEG, 100, baos);
@@ -436,7 +450,7 @@ public class PrepaidTopUpActivity extends AppCompatActivity {
         String encodedImage = Base64.encodeToString(imageBytes, Base64.DEFAULT);
         return encodedImage;
     }
-
+    //Get Bitmap image from drawable or vector image
     public Bitmap getBitmapFromVectorDrawable(Context context, int drawableId) {
         Drawable drawable = ContextCompat.getDrawable(context, drawableId);
         if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP) {
@@ -451,7 +465,7 @@ public class PrepaidTopUpActivity extends AppCompatActivity {
 
         return getResizedBitmap(bitmap, 24);
     }
-
+    //Compress Bitmap image
     public Bitmap getResizedBitmap(Bitmap image, int maxSize) {
         int width = image.getWidth();
         int height = image.getHeight();
