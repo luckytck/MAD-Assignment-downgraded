@@ -40,6 +40,7 @@ public class MainActivity extends AppCompatActivity
     public static final String PAYMENT_TITLE = "payment title";
     public static final String PAYMENT_IMAGE = "payment image";
     public static final String PAYMENT_TARGET = "payment target";
+    public static final String VOUCHER_TYPE ="voucher type";
     private TextView textViewWelcome;
     private Menu menu;
     private ProgressDialog pDialog;
@@ -82,7 +83,7 @@ public class MainActivity extends AppCompatActivity
                 startActivity(intent);
             }
         });
-        //Umobile top up
+
         ImageButton imageButtonUmobile = (ImageButton)findViewById(R.id.imageButtonUmobile);
         imageButtonUmobile.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -117,7 +118,9 @@ public class MainActivity extends AppCompatActivity
         imageButtonSteam.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
+                Intent intent = new Intent(MainActivity.this,PurchaseVoucherActivity.class);
+                intent.putExtra(VOUCHER_TYPE,"Steam Wallet Code");
+                startActivity(intent);
             }
         });
         //Buy Garena Shells
@@ -125,7 +128,9 @@ public class MainActivity extends AppCompatActivity
         imageButtonGarena.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
+                Intent intent = new Intent(MainActivity.this,PurchaseVoucherActivity.class);
+                intent.putExtra(VOUCHER_TYPE,"Garena Shells");
+                startActivity(intent);
             }
         });
         //Buy Playstation Credit
@@ -133,7 +138,9 @@ public class MainActivity extends AppCompatActivity
         imageButtonPlaystation.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
+                Intent intent = new Intent(MainActivity.this,PurchaseVoucherActivity.class);
+                intent.putExtra(VOUCHER_TYPE,"PSD Digital Code");
+                startActivity(intent);
             }
         });
         //Scan QR code

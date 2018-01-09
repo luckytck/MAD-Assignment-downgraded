@@ -6,6 +6,7 @@
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.VIBRATE" />
+
     <uses-feature android:name="android.hardware.camera" />
 
     <application
@@ -96,11 +97,12 @@
             android:name="com.google.android.gms.vision.DEPENDENCIES"
             android:value="barcode" />
 
-        <activity android:name=".ViewVoucherActivity"
+        <activity
+            android:name=".ViewVoucherActivity"
             android:label="My Voucher"
             android:parentActivityName=".MainActivity"
             android:screenOrientation="portrait"
-            android:theme="@style/AppTheme"/>
+            android:theme="@style/AppTheme" />
         <activity
             android:name=".PrepaidTopUpActivity"
             android:label="@string/prepaid_reload_title"
@@ -113,12 +115,23 @@
             android:parentActivityName=".MainActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppThemeHome" />
-        <activity android:name=".ConfirmationActivity"
+        <activity
+            android:name=".ConfirmationActivity"
             android:label="Confirmation"
             android:parentActivityName=".QRCodeScannerActivity"
             android:screenOrientation="portrait"
-            android:theme="@style/AppTheme"></activity>
-
+            android:theme="@style/AppTheme" />
+        <activity
+            android:name=".PurchaseVoucherActivity"
+            android:label="Purchase Voucher"
+            android:parentActivityName=".MainActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme" />
+        <activity android:name=".PurcahseVoucherSuccessfulActivity"
+            android:label="Voucher Code"
+            android:theme="@style/AppTheme"
+            android:parentActivityName=".PurchaseVoucherActivity"
+            android:screenOrientation="portrait"></activity>
     </application>
 
 </manifest>

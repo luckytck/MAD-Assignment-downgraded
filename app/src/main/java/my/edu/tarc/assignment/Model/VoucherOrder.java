@@ -21,6 +21,11 @@ public class VoucherOrder {
         this.orderDate=orderDate;
         this.username=username;
     }
+    public VoucherOrder(int id,String voucherCode,String username){
+        this.id=id;
+        this.voucherCode=voucherCode;
+         this.username=username;
+    }
     public void setId(int id){
         this.id=id;
     }
@@ -46,4 +51,14 @@ public class VoucherOrder {
         return username;
     }
 
+    @Override
+    public String toString() {
+        return "VoucherOrder{" +
+                "id='" + id + '\'' +
+                ", voucherCode=" + voucherCode +
+                ", orderDate=" + orderDate +
+                ", username=" + username +
+                '\'' +
+                '}';
+    }
 }
