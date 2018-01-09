@@ -57,16 +57,19 @@ public class WalletActivity extends AppCompatActivity {
         cardList = new ArrayList<>();
         listViewCard = (ListView)findViewById(R.id.listViewCard);
         user = new User();
-
+        //Get existing credit/debit cards
         downloadCard(getApplicationContext(),getString(R.string.get_card_url));
+        //Get balance
         retrieveBalance(getApplicationContext(), getString(R.string.get_balance_url));
-
+        //Top up balance
         Button buttonTopUp = (Button)findViewById(R.id.buttonTopUp);
         buttonTopUp.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (cardList.size() > 0){
+                if (cardList.size() > 0){//Check existing card number
+                    //Go top up page
                     Intent intent = new Intent(WalletActivity.this, WalletTopUpActivity.class);
+
                     String[] cardTitle = new String[cardList.size()];
                     for (int i = 0; i < cardList.size(); i++){
                         String cardNumber = cardList.get(i).getCardNumber();
@@ -79,10 +82,9 @@ public class WalletActivity extends AppCompatActivity {
                     }
                     intent.putExtra(CARD_TITLE_ARRAY, cardTitle);
                     startActivity(intent);
-                } else {
+                } else {//No card added to account
                     Toast.makeText(getApplicationContext(), "Sorry, please add a credit/debit card first.", Toast.LENGTH_LONG).show();
                 }
-
             }
         });
     }
@@ -140,7 +142,7 @@ public class WalletActivity extends AppCompatActivity {
         // Add the request to the RequestQueue.
         queue.add(jsonObjectRequest);
     }
-
+    //Show added cards
     private void loadListViewCard() {
         CardAdapter cardAdapter = new CardAdapter(this,cardList);
         listViewCard.setAdapter(cardAdapter);
@@ -186,22 +188,22 @@ public class WalletActivity extends AppCompatActivity {
         // Add the request to the RequestQueue.
         queue.add(jsonObjectRequest);
     }
-
+    //Show balance
     private void loadBalance(){
         //Currency currency = Currency.getInstance(Locale.getDefault());
         //String symbol = currency.getSymbol();
         textViewBalance.setText(getString(R.string.balance) + String.format("%.2f", user.getBalance()));
     }
-
+    //Update added card
     public static void reloadListViewCard(Context context){
         WalletActivity activity = (WalletActivity)context;
         activity.downloadCard(context, context.getString(R.string.get_card_url));
     }
-
+    //Add new card
     public void addNewCard(View view){
-        if (cardList.size() >= 3){
+        if (cardList.size() >= 3){//Check added card number
             Toast.makeText(getApplicationContext(), "Sorry, you have reach the maximum number of cards can be added.", Toast.LENGTH_LONG).show();
-        } else {
+        } else {//Go add new card page
             Intent intent = new Intent(this, AddNewCardActivity.class);
             startActivity(intent);
         }
@@ -209,6 +211,7 @@ public class WalletActivity extends AppCompatActivity {
 
     @Override
     protected void onResume() {
+        //Update added cards and balance
         downloadCard(getApplicationContext(),getString(R.string.get_card_url));
         retrieveBalance(getApplicationContext(), getString(R.string.get_balance_url));
         super.onResume();
@@ -229,7 +232,7 @@ public class WalletActivity extends AppCompatActivity {
         int id = item.getItemId();
 
         //noinspection SimplifiableIfStatement
-        if (id == R.id.action_history || id == R.id.action_history_icon) {
+        if (id == R.id.action_history || id == R.id.action_history_icon) {//Go transaction history page
             Intent intent = new Intent(this, TransactionHistoryActivity.class);
             startActivity(intent);
         }

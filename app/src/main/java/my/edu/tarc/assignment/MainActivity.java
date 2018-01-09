@@ -38,6 +38,8 @@ public class MainActivity extends AppCompatActivity
     public static final String TAG = "my.edu.tarc.assignment";
     public static final String TELCO_NAME = "telco name";
     public static final String PAYMENT_TITLE = "payment title";
+    public static final String PAYMENT_IMAGE = "payment image";
+    public static final String PAYMENT_TARGET = "payment target";
     private TextView textViewWelcome;
     private Menu menu;
     private ProgressDialog pDialog;
@@ -63,14 +65,14 @@ public class MainActivity extends AppCompatActivity
         pDialog = new ProgressDialog(this);
         user = new User();
         retrieveBalance(getApplicationContext(), getString(R.string.get_balance_url));
-
+        //Set drawer welcome message
         View header = navigationView.getHeaderView(0);
         textViewWelcome = (TextView)header.findViewById(R.id.textViewWelcome);
         SharedPreferences pref = getSharedPreferences("loginInfo", Context.MODE_PRIVATE);
         String username = pref.getString("username", "");
         textViewWelcome.setText(getString(R.string.welcome) + username.toUpperCase());
 
-        //Image buttons for top up
+        //Digi top up
         ImageButton imageButtonDigi = (ImageButton)findViewById(R.id.imageButtonDigi);
         imageButtonDigi.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -80,7 +82,7 @@ public class MainActivity extends AppCompatActivity
                 startActivity(intent);
             }
         });
-
+        //Umobile top up
         ImageButton imageButtonUmobile = (ImageButton)findViewById(R.id.imageButtonUmobile);
         imageButtonUmobile.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -90,7 +92,7 @@ public class MainActivity extends AppCompatActivity
                 startActivity(intent);
             }
         });
-
+        //Hotlink top up
         ImageButton imageButtonHotlink = (ImageButton)findViewById(R.id.imageButtonHotlink);
         imageButtonHotlink.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -100,7 +102,7 @@ public class MainActivity extends AppCompatActivity
                 startActivity(intent);
             }
         });
-
+        //Xpax top up
         ImageButton imageButtonXpax = (ImageButton)findViewById(R.id.imageButtonXpax);
         imageButtonXpax.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -110,7 +112,7 @@ public class MainActivity extends AppCompatActivity
                 startActivity(intent);
             }
         });
-        //Image button for voucher_layout
+        //Buy Steam Credit
         ImageButton imageButtonSteam = (ImageButton)findViewById(R.id.imageButtonSteam);
         imageButtonSteam.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -118,7 +120,7 @@ public class MainActivity extends AppCompatActivity
 
             }
         });
-
+        //Buy Garena Shells
         ImageButton imageButtonGarena = (ImageButton)findViewById(R.id.imageButtonGarena);
         imageButtonGarena.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -126,7 +128,7 @@ public class MainActivity extends AppCompatActivity
 
             }
         });
-
+        //Buy Playstation Credit
         ImageButton imageButtonPlaystation = (ImageButton)findViewById(R.id.imageButtonPlaystation);
         imageButtonPlaystation.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -134,6 +136,7 @@ public class MainActivity extends AppCompatActivity
 
             }
         });
+        //Scan QR code
         Button buttonScan = (Button)findViewById(R.id.buttonScan);
         buttonScan.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -171,7 +174,7 @@ public class MainActivity extends AppCompatActivity
         int id = item.getItemId();
 
         //noinspection SimplifiableIfStatement
-        if (id == R.id.action_wallet || id == R.id.action_balance) {
+        if (id == R.id.action_wallet || id == R.id.action_balance) {//My wallet
             Intent intent = new Intent(this, WalletActivity.class);
             startActivity(intent);
         }
@@ -185,21 +188,22 @@ public class MainActivity extends AppCompatActivity
         // Handle navigation view item clicks here.
         int id = item.getItemId();
 
-        if (id == R.id.nav_voucher) {
-            // Handle the camera action
+        if (id == R.id.nav_voucher) {//View voucher
             Intent intent = new Intent(this,ViewVoucherActivity.class);
             startActivity(intent);
-        } else if (id == R.id.nav_wallet) {
+        } else if (id == R.id.nav_wallet) {//My wallet
             Intent intent = new Intent(this,WalletActivity.class);
             startActivity(intent);
-        } else if (id == R.id.nav_settings) {
+        } else if (id == R.id.nav_settings) {//Settings
             Intent intent = new Intent(MainActivity.this, SettingsActivity.class);
             startActivity(intent);
-        } else if (id == R.id.nav_logout) {
+        } else if (id == R.id.nav_logout) {//Logout
+            //Disable auto-login
             SharedPreferences loginInfo = getSharedPreferences("loginInfo", Context.MODE_PRIVATE);
             SharedPreferences.Editor editor = loginInfo.edit();
             editor.putBoolean("login_key", false);
             editor.apply();
+            //Login page
             Intent intent = new Intent(this, LoginActivity.class);
             intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
             startActivity(intent);
@@ -209,7 +213,7 @@ public class MainActivity extends AppCompatActivity
         drawer.closeDrawer(GravityCompat.START);
         return true;
     }
-
+    //Retrieve balance
     private void retrieveBalance(Context context, String url){
         // Instantiate the RequestQueue
         queue = Volley.newRequestQueue(context);
@@ -250,7 +254,7 @@ public class MainActivity extends AppCompatActivity
         // Add the request to the RequestQueue.
         queue.add(jsonObjectRequest);
     }
-
+    //Show balance on app bar
     private void loadBalance(){
         //Currency currency = Currency.getInstance(Locale.getDefault());
         //String symbol = currency.getSymbol();
@@ -258,8 +262,10 @@ public class MainActivity extends AppCompatActivity
     }
 
     @Override
-    protected void onPostResume() {
+    protected void onResume() {
+        //Update balance
         retrieveBalance(getApplicationContext(), getString(R.string.get_balance_url));
         super.onPostResume();
+        super.onResume();
     }
 }

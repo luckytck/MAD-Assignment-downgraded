@@ -51,7 +51,7 @@ public class TransactionHistoryActivity extends AppCompatActivity {
         listViewTransaction = (ListView)findViewById(R.id.listViewTransaction);
         pDialog = new ProgressDialog(this);
         transactionList = new ArrayList<>();
-
+        //Get transaction records
         downloadTransaction(getApplicationContext(), getString(R.string.get_transaction_url));
     }
 
@@ -108,7 +108,7 @@ public class TransactionHistoryActivity extends AppCompatActivity {
         // Add the request to the RequestQueue.
         queue.add(jsonObjectRequest);
     }
-
+    //Show transaction records from latest to oldest
     private void loadListViewTransaction() {
         if (transactionList.size()>0){
             TransactionAdapter transactionAdapter = new TransactionAdapter(this, transactionList);

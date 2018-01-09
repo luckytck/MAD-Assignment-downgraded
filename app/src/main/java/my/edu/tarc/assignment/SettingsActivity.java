@@ -51,8 +51,9 @@ public class SettingsActivity extends AppCompatActivity {
 
         pDialog = new ProgressDialog(SettingsActivity.this);
         userList = new ArrayList<>();
+        //Get account details
         downloadUser(getApplicationContext(), getString(R.string.get_user_url));
-
+        //Edit profile
         Button buttonEditProfile = (Button)findViewById(R.id.buttonEditProfile);
         buttonEditProfile.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -64,6 +65,7 @@ public class SettingsActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+        //Reset pin
         Button buttonResetPIN=(Button)findViewById(R.id.buttonResetPin);
         buttonResetPIN.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -72,6 +74,7 @@ public class SettingsActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+        //Change password
         Button buttonChangePassword=(Button)findViewById(R.id.buttonChangePassword);
         buttonChangePassword.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -132,7 +135,7 @@ public class SettingsActivity extends AppCompatActivity {
         // Add the request to the RequestQueue.
         queue.add(jsonObjectRequest);
     }
-
+    //Show account details
     private void loadProfile(){
         SharedPreferences pref = getSharedPreferences("loginInfo", Context.MODE_PRIVATE);
         String username = pref.getString("username", "");
@@ -150,17 +153,17 @@ public class SettingsActivity extends AppCompatActivity {
 
     @Override
     protected void onResume() {
+        //update account details
         downloadUser(getApplicationContext(), getString(R.string.get_user_url));
         super.onResume();
     }
-
+    //Capitalize first character of each word
     private String capitalize(String capString){
         StringBuffer capBuffer = new StringBuffer();
         Matcher capMatcher = Pattern.compile("([a-z\\@\\.])([a-z\\@\\.]*)", Pattern.CASE_INSENSITIVE).matcher(capString);
         while (capMatcher.find()){
             capMatcher.appendReplacement(capBuffer, capMatcher.group(1).toUpperCase() + capMatcher.group(2).toLowerCase());
         }
-
         return capMatcher.appendTail(capBuffer).toString();
     }
 }

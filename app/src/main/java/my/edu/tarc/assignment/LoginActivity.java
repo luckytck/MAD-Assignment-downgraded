@@ -42,20 +42,32 @@ public class LoginActivity extends AppCompatActivity {
 
         pDialog = new ProgressDialog(LoginActivity.this);
         userList = new ArrayList<>();
-
+        //Check auto-login condition
         SharedPreferences pref = getSharedPreferences("loginInfo", Context.MODE_PRIVATE);
         if (pref.getBoolean("login_key", false)){
             Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
             startActivity(intent);
         }
-
+        //Sign In
         Button buttonSignIn = (Button)findViewById(R.id.buttonSignIn);
         buttonSignIn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                downloadUser(getApplicationContext(), getString(R.string.get_user_url));
+                String username = editTextUsername.getText().toString();
+                String password = editTextPassword.getText().toString();
+                //Check empty fields
+                if (username.isEmpty() || password.isEmpty()){
+                    Toast.makeText(getApplicationContext(),
+                            "Please fill in username & password.",
+                            Toast.LENGTH_SHORT).show();
+                } else {
+                    //Logging In
+                    downloadUser(getApplicationContext(), getString(R.string.get_user_url));
+                }
             }
         });
+        //Register
         Button buttonRegister = (Button)findViewById(R.id.buttonRegister);
         buttonRegister.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -117,7 +129,7 @@ public class LoginActivity extends AppCompatActivity {
         // Add the request to the RequestQueue.
         queue.add(jsonObjectRequest);
     }
-
+    //Validate username & password
     private void validateAccount(){
         boolean isValid = false;
         String username = editTextUsername.getText().toString();
@@ -129,22 +141,25 @@ public class LoginActivity extends AppCompatActivity {
                 break;
             }
         }
-        if (isValid){
+        if (isValid){//Valid account
+            //Set auto-login
             SharedPreferences pref = getSharedPreferences("loginInfo", Context.MODE_PRIVATE);
             SharedPreferences.Editor editor = pref.edit();
             editor.putString("username", username);
             editor.putBoolean("login_key", true);
             editor.apply();
+
             Toast.makeText(getApplicationContext(),
                     "Login Successful.",
                     Toast.LENGTH_SHORT).show();
-            Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+            //Start home page
+            Intent intent = new Intent(this, MainActivity.class);
             intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
             startActivity(intent);
-        } else {
+        } else {//Invalid account
             Toast.makeText(getApplicationContext(),
-                    "Oops! Login failed, invalid username or password.",
-                    Toast.LENGTH_SHORT).show();
+                    "Login failed, invalid username or password.",
+                    Toast.LENGTH_LONG).show();
         }
     }
 }

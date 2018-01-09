@@ -63,29 +63,30 @@ public class WalletTopUpActivity extends AppCompatActivity implements AdapterVie
         editTextTopUpAmount = (EditText)findViewById(R.id.editTextTopUpAmount);
         spinnerCard = (Spinner)findViewById(R.id.spinnerCard);
         pinviewTopUpPin = (Pinview)findViewById(R.id.pinviewTopUpPIN);
-
+        //Get existing credit/debit card
         Intent intent = getIntent();
         String[] cardTitle = intent.getStringArrayExtra(WalletActivity.CARD_TITLE_ARRAY);
+        //Show added card to spinner
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, cardTitle);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinnerCard.setOnItemSelectedListener(this);
         spinnerCard.setAdapter(adapter);
-
+        //Top up wallet
         Button buttonConfirmTopUp = (Button)this.findViewById(R.id.buttonConfirmTopUp);
         buttonConfirmTopUp.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (spinnerCard.getCount() == 0){
+                if (spinnerCard.getCount() == 0){//No card added to account
                     Toast.makeText(getApplicationContext(), "Sorry, please add a credit/debit card first.", Toast.LENGTH_LONG).show();
-                } else if (editTextTopUpAmount.getText().toString().isEmpty()) {
+                } else if (editTextTopUpAmount.getText().toString().isEmpty()) {//empty field
                     Toast.makeText(getApplicationContext(), "Please enter top up amount.", Toast.LENGTH_LONG).show();
                 } else {
                     amount = Double.parseDouble(editTextTopUpAmount.getText().toString());
-                    if (amount < 10) {
+                    if (amount < 10) {//top up amount less than 10
                         Toast.makeText(getApplicationContext(), "Sorry, minimum top up amount is RM10.", Toast.LENGTH_LONG).show();
-                    } else if (pinviewTopUpPin.getValue().length() < 6) {
+                    } else if (pinviewTopUpPin.getValue().length() < 6) {//Check 6-digit pin
                         Toast.makeText(getApplicationContext(),"Please fill up 6-Digit PIN.",Toast.LENGTH_SHORT).show();
-                    } else {
+                    } else {//Start top up wallet
                         processTopUp();
                     }
                 }
@@ -95,6 +96,7 @@ public class WalletTopUpActivity extends AppCompatActivity implements AdapterVie
 
     @Override
     public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+        //Set selected spinner item's text size and colour;
         ((TextView) adapterView.getChildAt(0)).setTextColor(Color.BLUE);
         ((TextView) adapterView.getChildAt(0)).setTextSize(18);
     }
@@ -108,7 +110,7 @@ public class WalletTopUpActivity extends AppCompatActivity implements AdapterVie
         int pinInput = Integer.parseInt(pinviewTopUpPin.getValue());
         validatePIN(getApplicationContext(), getString(R.string.get_user_url), pinInput);
     }
-
+    //Validate pin number
     private void validatePIN(final Context context, String url, final int pinInput){
         // Instantiate the RequestQueue
         queue = Volley.newRequestQueue(context);
@@ -168,7 +170,7 @@ public class WalletTopUpActivity extends AppCompatActivity implements AdapterVie
         // Add the request to the RequestQueue.
         queue.add(jsonObjectRequest);
     }
-
+    //Update balance
     public void updateBalance(final Context context, String url, final User user) {
         //mPostCommentResponse.requestStarted();
         RequestQueue queue = Volley.newRequestQueue(context);
@@ -190,6 +192,7 @@ public class WalletTopUpActivity extends AppCompatActivity implements AdapterVie
                                     Toast.makeText(getApplicationContext(), "Top up failed.", Toast.LENGTH_LONG).show();
                                 }else{
                                     Toast.makeText(getApplicationContext(), "Top up successful.", Toast.LENGTH_SHORT).show();
+                                    //Set wallet top up image to string
                                     Bitmap bitmap = getBitmapFromVectorDrawable(getApplicationContext(), R.drawable.ic_account_balance_wallet_grey_24dp);
                                     String image = getStringImage(bitmap);
 
@@ -232,7 +235,7 @@ public class WalletTopUpActivity extends AppCompatActivity implements AdapterVie
             e.printStackTrace();
         }
     }
-
+    //Record wallet top up
     public void recordTransaction(Context context, String url, final Transaction transaction) {
         //mPostCommentResponse.requestStarted();
         RequestQueue queue = Volley.newRequestQueue(context);
@@ -313,7 +316,7 @@ public class WalletTopUpActivity extends AppCompatActivity implements AdapterVie
 
         return getResizedBitmap(bitmap, 24);
     }
-
+    //Compress Bitmap image
     public Bitmap getResizedBitmap(Bitmap image, int maxSize) {
         int width = image.getWidth();
         int height = image.getHeight();

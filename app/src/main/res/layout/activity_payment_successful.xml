@@ -51,4 +51,33 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
 
+    <ImageView
+        android:id="@+id/imageViewPayment"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textViewPaymentTitle"
+        app:srcCompat="@drawable/icon_7eleven"
+        android:layout_marginLeft="16dp" />
+
+    <TextView
+        android:id="@+id/textViewTarget"
+        android:layout_width="0dp"
+        android:layout_height="40dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        android:padding="5dp"
+        android:text="@string/store_name"
+        android:textColor="@color/colorPrimary"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/imageViewPayment"
+        app:layout_constraintTop_toBottomOf="@+id/textViewPaymentTitle"
+        android:layout_marginRight="8dp"
+        android:layout_marginLeft="16dp" />
+
 </android.support.constraint.ConstraintLayout>

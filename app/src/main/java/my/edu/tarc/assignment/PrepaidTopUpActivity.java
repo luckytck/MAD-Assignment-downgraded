@@ -72,20 +72,20 @@ public class PrepaidTopUpActivity extends AppCompatActivity implements AdapterVi
         editTextPhoneNo = (EditText)findViewById(R.id.editTextPhoneNo);
         pinviewTopUpPIN = (Pinview) findViewById(R.id.pinviewTopUpPIN);
         pDialog = new ProgressDialog(this);
-
+        //Get top up telco name
         Intent intent = getIntent();
         telcoName = intent.getStringExtra(MainActivity.TELCO_NAME);
         setTitle(telcoName + getString(R.string.prepaid_reload_title));
-        if (telcoName.equalsIgnoreCase("Digi")){
+        if (telcoName.equalsIgnoreCase("Digi")){//Digi top up
             imageViewTelco.setImageResource(R.drawable.digi_banner);
             bitmap = getBitmapFromVectorDrawable(getApplicationContext(), R.drawable.digi);
-        } else if (telcoName.equalsIgnoreCase("Umobile")){
+        } else if (telcoName.equalsIgnoreCase("Umobile")){//Umobile top up
             imageViewTelco.setImageResource(R.drawable.umobile_banner);
             bitmap = getBitmapFromVectorDrawable(getApplicationContext(), R.drawable.umobile);
-        } else if (telcoName.equalsIgnoreCase("Hotlink")){
+        } else if (telcoName.equalsIgnoreCase("Hotlink")){//Hotlink top up
             imageViewTelco.setImageResource(R.drawable.hotlink_banner);
             bitmap = getBitmapFromVectorDrawable(getApplicationContext(), R.drawable.hotlink);
-        } else {
+        } else {//Xpax top up
             imageViewTelco.setImageResource(R.drawable.xpax_banner);
             bitmap = getBitmapFromVectorDrawable(getApplicationContext(), R.drawable.xpax);
         }
@@ -98,25 +98,27 @@ public class PrepaidTopUpActivity extends AppCompatActivity implements AdapterVi
                         android.R.layout.simple_spinner_item
                 );
         adapter.setDropDownViewResource(android.R.layout.simple_dropdown_item_1line);
+        //Set reload amount to spinner
         spinnerReloadAmount.setOnItemSelectedListener(this);
         spinnerReloadAmount.setAdapter(adapter);
-
+        //Confirm top up
         Button buttonConfirm = (Button)findViewById(R.id.buttonConfirm);
         buttonConfirm.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 String phoneNo = editTextPhoneNo.getText().toString();
                 int pos = spinnerReloadAmount.getSelectedItemPosition();
-                if (pos == -1){
+                if (pos == -1){//No selected reload amount
                     Toast.makeText(getApplicationContext(), "Please select reload amount.", Toast.LENGTH_LONG).show();
-                } else if (phoneNo.isEmpty()){
+                } else if (phoneNo.isEmpty()){//empty phone number
                     Toast.makeText(getApplicationContext(), "Please enter phone number you want to reload.", Toast.LENGTH_LONG).show();
-                } else if (!phoneNo.matches("^01[0-9]{8,9}$")){
+                } else if (!phoneNo.matches("^01[0-9]{8,9}$")){//Invalid phone number
                     Toast.makeText(getApplicationContext(), "Invalid phone number, please enter a valid format: 01xxxxxxxx", Toast.LENGTH_LONG).show();
-                } else if (pinviewTopUpPIN.getValue().length() < 6){
+                } else if (pinviewTopUpPIN.getValue().length() < 6){//Invalid pin number
                     Toast.makeText(getApplicationContext(),"Please fill up 6-Digit PIN.",Toast.LENGTH_SHORT).show();
                 } else {
                     pinInput = Integer.parseInt(pinviewTopUpPIN.getValue());
+                    //Set reload amount
                     switch (pos){
                         case 0:
                             reloadAmount = 10;
@@ -130,6 +132,7 @@ public class PrepaidTopUpActivity extends AppCompatActivity implements AdapterVi
                         default:
                             reloadAmount = 0;
                     }
+                    //Start top up
                     processTopUp();
                 }
             }
@@ -138,6 +141,7 @@ public class PrepaidTopUpActivity extends AppCompatActivity implements AdapterVi
 
     @Override
     public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+        //Set selected item's text size and colour
         ((TextView) adapterView.getChildAt(0)).setTextColor(Color.BLUE);
         ((TextView) adapterView.getChildAt(0)).setTextSize(18);
     }
@@ -150,7 +154,7 @@ public class PrepaidTopUpActivity extends AppCompatActivity implements AdapterVi
     private void processTopUp() {
         validatePIN(getApplicationContext(), getString(R.string.get_user_url));
     }
-
+    //Validate pin
     private void validatePIN(final Context context, String url){
         // Instantiate the RequestQueue
         queue = Volley.newRequestQueue(context);
@@ -214,7 +218,7 @@ public class PrepaidTopUpActivity extends AppCompatActivity implements AdapterVi
         // Add the request to the RequestQueue.
         queue.add(jsonObjectRequest);
     }
-
+    //Check top up stock
     private void checkStock(final Context context, String url){
         // Instantiate the RequestQueue
         queue = Volley.newRequestQueue(context);
@@ -258,7 +262,7 @@ public class PrepaidTopUpActivity extends AppCompatActivity implements AdapterVi
         // Add the request to the RequestQueue.
         queue.add(jsonObjectRequest);
     }
-
+    //Update top up stock
     public void updateStock(final Context context, String url, final int quantity) {
         //mPostCommentResponse.requestStarted();
         RequestQueue queue = Volley.newRequestQueue(context);
@@ -315,7 +319,7 @@ public class PrepaidTopUpActivity extends AppCompatActivity implements AdapterVi
             e.printStackTrace();
         }
     }
-
+    //Update balance
     public void updateBalance(final Context context, String url, final User user) {
         //mPostCommentResponse.requestStarted();
         RequestQueue queue = Volley.newRequestQueue(context);
@@ -377,7 +381,7 @@ public class PrepaidTopUpActivity extends AppCompatActivity implements AdapterVi
             e.printStackTrace();
         }
     }
-
+    //Record top up transaction
     public void recordTransaction(final Context context, String url, final Transaction transaction) {
         //mPostCommentResponse.requestStarted();
         RequestQueue queue = Volley.newRequestQueue(context);
@@ -399,9 +403,12 @@ public class PrepaidTopUpActivity extends AppCompatActivity implements AdapterVi
                                     Toast.makeText(getApplicationContext(), "Insert transaction failed.", Toast.LENGTH_LONG).show();
                                 }else{
                                     Toast.makeText(getApplicationContext(), "Top up successful.", Toast.LENGTH_SHORT).show();
+                                    //Go payment successful page
                                     Intent intent = new Intent(context, PaymentSuccessfulActivity.class);
                                     intent.putExtra(MainActivity.PAYMENT_TITLE, spinnerReloadAmount.getSelectedItem() +
-                                            " has been top up to " + editTextPhoneNo.getText().toString());
+                                            " has been top up to ");
+                                    intent.putExtra(MainActivity.PAYMENT_IMAGE, transaction.getImageMerchant());
+                                    intent.putExtra(MainActivity.PAYMENT_TARGET, editTextPhoneNo.getText().toString());
                                     TaskStackBuilder.create(PrepaidTopUpActivity.this)//Create a new stack of activities
                                             .addNextIntentWithParentStack(new Intent(PrepaidTopUpActivity.this, MainActivity.class))
                                             .addNextIntentWithParentStack(intent)

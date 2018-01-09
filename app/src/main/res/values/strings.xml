@@ -84,6 +84,7 @@
     <string name="update_balance_url">https://easy-app.000webhostapp.com/update_balance.php</string>
     <string name="get_top_up_stock_url">https://easy-app.000webhostapp.com/get_top_up_stock.php?telcoName=</string>
     <string name="update_top_up_stock_url">https://easy-app.000webhostapp.com/update_top_up_stock.php</string>
+    <string name="get_store_url">https://easy-app.000webhostapp.com/select_store.php?storeName=</string>
     <string name="prepaid_reload_title">" Reload"</string>
     <string name="reload_message">Please select the reload amount</string>
     <string name="payment_successful">Payment Successful</string>

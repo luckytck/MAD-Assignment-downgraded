@@ -37,12 +37,12 @@ public class EditProfileActivity extends AppCompatActivity {
         editTextName = (EditText)findViewById(R.id.editTextName);
         editTextContactNo = (EditText)findViewById(R.id.editTextContactNo);
         editTextEmail = (EditText)findViewById(R.id.editTextEmail);
-
+        //Show existing profile
         Intent intent = getIntent();
         editTextName.setText(intent.getStringExtra(SettingsActivity.PROFILE_NAME));
         editTextContactNo.setText(intent.getStringExtra(SettingsActivity.PROFILE_CONTACT_NO));
         editTextEmail.setText(intent.getStringExtra(SettingsActivity.PROFILE_EMAIL));
-
+        //Save
         Button buttonSave = (Button)findViewById(R.id.buttonSave);
         buttonSave.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -52,11 +52,12 @@ public class EditProfileActivity extends AppCompatActivity {
                 String name = editTextName.getText().toString();
                 String contactNo = editTextContactNo.getText().toString();
                 String email = editTextEmail.getText().toString();
-                if (name.isEmpty() || contactNo.isEmpty() || email.isEmpty()){
-                    Toast.makeText(getApplicationContext(), "Please fill in all the fields", Toast.LENGTH_LONG).show();
-                } else if (!contactNo.matches("^01[0-9]{1}\\-?[0-9]{7,8}$")){
+
+                if (name.isEmpty() || contactNo.isEmpty() || email.isEmpty()){//Check empty fields
+                    Toast.makeText(getApplicationContext(), "Please fill in all the fields", Toast.LENGTH_SHORT).show();
+                } else if (!contactNo.matches("^01[0-9]{1}\\-?[0-9]{7,8}$")){//Check contact no format
                     Toast.makeText(getApplicationContext(), "Invalid contact number, please enter a valid format: 01x-xxxxxxx", Toast.LENGTH_LONG).show();
-                } else {
+                } else {//Update profile
                     User user = new User();
                     user.setUsername(username);
                     user.setName(name);
@@ -64,7 +65,7 @@ public class EditProfileActivity extends AppCompatActivity {
                     user.setPhoneNo(contactNo);
 
                     try {
-                        makeServiceCall(EditProfileActivity.this, getString(R.string.update_profile_url), user);
+                        updateProfile(EditProfileActivity.this, getString(R.string.update_profile_url), user);
                     } catch (Exception e) {
                         e.printStackTrace();
                         Toast.makeText(getApplicationContext(), "Error: " + e.getMessage(), Toast.LENGTH_LONG).show();
@@ -74,7 +75,7 @@ public class EditProfileActivity extends AppCompatActivity {
         });
     }
 
-    public void makeServiceCall(Context context, String url, final User user) {
+    public void updateProfile(Context context, String url, final User user) {
         //mPostCommentResponse.requestStarted();
         RequestQueue queue = Volley.newRequestQueue(context);
 
