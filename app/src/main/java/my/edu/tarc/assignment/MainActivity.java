@@ -187,6 +187,8 @@ public class MainActivity extends AppCompatActivity
 
         if (id == R.id.nav_voucher) {
             // Handle the camera action
+            Intent intent = new Intent(this,ViewVoucherActivity.class);
+            startActivity(intent);
         } else if (id == R.id.nav_wallet) {
             Intent intent = new Intent(this,WalletActivity.class);
             startActivity(intent);
