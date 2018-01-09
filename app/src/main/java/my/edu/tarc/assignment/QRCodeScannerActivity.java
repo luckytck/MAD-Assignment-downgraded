@@ -33,7 +33,8 @@ import me.dm7.barcodescanner.zxing.ZXingScannerView;
 import my.edu.tarc.assignment.Model.User;
 
 public class QRCodeScannerActivity extends AppCompatActivity implements ZXingScannerView.ResultHandler {
-
+    public static final String STORE_NAME = "store name";
+    public static final String AMOUNT = "amount";
     private ZXingScannerView mScannerView;
     private List<User> userList;
     private RequestQueue queue;
@@ -67,28 +68,29 @@ public class QRCodeScannerActivity extends AppCompatActivity implements ZXingSca
        Log.v(LoginActivity.TAG, rawResult.getBarcodeFormat().toString()); // Prints the scan format (qrcode, pdf417 etc.)
 
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setTitle("Proceed the payment?");
-        builder.setMessage("Amount : RM "+rawResult.getText());
-        builder.setIcon(R.drawable.payment);
-        builder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialogInterface, int i) {
-                proceedPayment(Double.parseDouble(rawResult.getText()));
+        String[] params = rawResult.getText().split(":");
+        String[] storeName = null;
+        String[] amount = null;
+        boolean isValidBarcode = false;
+        if (params.length == 2){
+            storeName = params[0].split("=");
+            amount = params[1].split("=");
+            if (storeName[0].equalsIgnoreCase("storeName")
+                    && amount[0].equalsIgnoreCase("amount")
+                    && amount[1].matches("^([0-9]*)(\\.([0-9]*))?$")){
+                isValidBarcode = true;
             }
-        });
-        builder.setNegativeButton("No", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialogInterface, int i) {
-                Intent intent = new Intent(QRCodeScannerActivity.this,MainActivity.class);
-                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                startActivity(intent);
-            }
-        });
-       builder.show();
-
-
-
-
+        }
+        if (isValidBarcode){//Barcode Format : storeName=abc&amount=123
+            Toast.makeText(getBaseContext(),rawResult.toString(),Toast.LENGTH_SHORT).show();
+            Intent intent = new Intent(this, ConfirmationActivity.class);
+            intent.putExtra(STORE_NAME, storeName[1]);
+            intent.putExtra(AMOUNT, amount[1]);
+            startActivity(intent);
+        } else {
+            Toast.makeText(getBaseContext(),"Invalid barcode format",Toast.LENGTH_SHORT).show();
+            finish();
+        }
     }
     public void proceedPayment(double amount){
         userList = new ArrayList<>();

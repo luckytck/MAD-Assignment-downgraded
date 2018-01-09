@@ -93,7 +93,7 @@ public class TransactionAdapter extends BaseAdapter{
             //String symbol = currency.getSymbol();
             amount += context.getString(R.string.balance) + String.format("%.2f", Math.abs(transaction.getAmount()));
             holder.textViewAmount.setText(amount);
-
+            //Convert string to bitmap
             ByteArrayOutputStream baos = new ByteArrayOutputStream();
             //decode base64 string to image
             byte[] imageBytes = baos.toByteArray();
