@@ -96,5 +96,7 @@
         <item>RM30</item>
         <item>RM50</item>
     </string-array>
+    <string name="select_voucher">https://easy-app.000webhostapp.com/select_voucher.php</string>
+    <string name="select_voucherOrder">https://easy-app.000webhostapp.com/select_voucherorder.php</string>
 
 </resources>
