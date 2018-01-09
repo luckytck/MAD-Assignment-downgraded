@@ -23,7 +23,6 @@ import java.util.Date;
 import java.util.List;
 
 import my.edu.tarc.assignment.Model.Voucher;
-import my.edu.tarc.assignment.Model.VoucherAdapter;
 import my.edu.tarc.assignment.Model.VoucherOrder;
 
 public class ViewVoucherActivity extends AppCompatActivity {
@@ -32,36 +31,62 @@ public class ViewVoucherActivity extends AppCompatActivity {
     private List<VoucherOrder> voucherOrderList;
     private RequestQueue queue;
     private ProgressDialog pDialog;
-
-
+    private String loginUsername;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_view_voucher);
-        pDialog = new ProgressDialog(this);
+     /*   pDialog = new ProgressDialog(this);
         voucherList = new ArrayList<>();
+        SharedPreferences pref = getSharedPreferences("loginInfo", Context.MODE_PRIVATE);
+        loginUsername = pref.getString("username", "");
         listViewVoucher = (ListView)findViewById(R.id.listViewVoucher);
         downloadVoucherOrder(getApplicationContext(),getString(R.string.select_voucherOrder));
-        getVoucherDisplay(getApplicationContext(),getString(R.string.select_voucher),voucherOrderList);
+        for(int i=0;i<voucherOrderList.size();++i){
+            if(!voucherOrderList.get(i).getUsername().equalsIgnoreCase(loginUsername)){
+                voucherOrderList.remove(i);
+            }
+        }
+        downloadVoucher(getApplicationContext(),getString(R.string.select_voucher));
+        List<Voucher> voucherUser=getVoucher();*/
+        //VoucherAdapter voucherAdapter = new VoucherAdapter(getApplicationContext(),voucherUser);
+        //listViewVoucher.setAdapter(voucherAdapter);
+
+
+
     }
     @Override
     protected void onResume() {
-        downloadVoucherOrder(getApplicationContext(),getString(R.string.select_voucherOrder));
-        getVoucherDisplay(getApplicationContext(), getString(R.string.select_voucher),voucherOrderList);
+       /* downloadVoucherOrder(getApplicationContext(),getString(R.string.select_voucherOrder));
+        for(int i=0;i<voucherOrderList.size();++i){
+            if(!voucherOrderList.get(i).getUsername().equalsIgnoreCase(loginUsername)){
+                voucherOrderList.remove(i);
+            }
+        }
+        downloadVoucher(getApplicationContext(),getString(R.string.select_voucher));
+        List<Voucher> voucherUser=getVoucher();
         VoucherAdapter voucherAdapter = new VoucherAdapter(getApplicationContext(),voucherList);
-        listViewVoucher.setAdapter(voucherAdapter);
+        listViewVoucher.setAdapter(voucherAdapter);*/
         super.onResume();
+    }
+
+    private List<Voucher> getVoucher(){
+        List<Voucher> voucherUser=new ArrayList<>();
+        for (int i=0;i<voucherList.size();++i){
+            for(int j=0;j<voucherOrderList.size();++j){
+                if(voucherList.get(i).getVoucherCode().equals(voucherOrderList.get(j).getVoucherCode())){
+                    voucherUser.add(voucherList.get(i));
+                }
+            }
+           }
+           return voucherUser;
     }
 
 
     private void downloadVoucherOrder(Context context, String url){
         // Instantiate the RequestQueue
         queue = Volley.newRequestQueue(context);
-
-        if (!pDialog.isShowing())
-            pDialog.setMessage("Loading...");
-        pDialog.show();
 
         final JsonArrayRequest jsonObjectRequest = new JsonArrayRequest(
                 url,
@@ -70,23 +95,18 @@ public class ViewVoucherActivity extends AppCompatActivity {
                     public void onResponse(JSONArray response) {
                         try {
                             voucherOrderList.clear();
-                            SharedPreferences pref = getSharedPreferences("loginInfo", Context.MODE_PRIVATE);
-                            String loginUsername = pref.getString("username", "");
-                            for (int i = 0; i < response.length(); i++) {
+                             for (int i = 0; i < response.length(); i++) {
                                 JSONObject userResponse = (JSONObject) response.get(i);
                                 int id = userResponse.getInt("id");
                                 String voucherCode = userResponse.getString("voucherCode");
-                                SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+                                SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
                                 Date orderDate = formatter.parse(userResponse.getString("orderDate"));
                                 String username = userResponse.getString("username");
-                                     if (username.equalsIgnoreCase(loginUsername)) {
                                     VoucherOrder vOrder = new VoucherOrder(id, voucherCode, orderDate, username);
                                     voucherOrderList.add(vOrder);
-                                }
+
                            }
-                            if (pDialog.isShowing())
-                                pDialog.dismiss();
-                        } catch (Exception e) {
+                            } catch (Exception e) {
                             Toast.makeText(getApplicationContext(), "Error:" + e.getMessage(), Toast.LENGTH_LONG).show();
                         }
                     }
@@ -106,7 +126,8 @@ public class ViewVoucherActivity extends AppCompatActivity {
         // Add the request to the RequestQueue.
         queue.add(jsonObjectRequest);
     }
-    private void getVoucherDisplay(Context context, String url,final List<VoucherOrder> voucherorder){
+
+    private void downloadVoucher(Context context, String url){
         // Instantiate the RequestQueue
         queue = Volley.newRequestQueue(context);
 
@@ -122,18 +143,13 @@ public class ViewVoucherActivity extends AppCompatActivity {
                                 String voucherCode = userResponse.getString("voucherCode");
                                 String voucherType = userResponse.getString("voucherType");
                                 double amount = userResponse.getDouble("amount");
-                                SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+                                SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
                                 Date expiryDate = formatter.parse(userResponse.getString("expiryDate"));
                                 String status = userResponse.getString("status");
-                                for(int j=0; j< voucherorder.size();++j){
-                                    if (voucherCode.equals(voucherorder.get(j).getVoucherCode())) {
-                                        Voucher v = new Voucher(voucherCode,voucherType,amount,expiryDate,status);
+                                       Voucher v = new Voucher(voucherCode,voucherType,amount,expiryDate,status);
                                         voucherList.add(v);
-                                    }
-                                }
 
                             }
-                            loadListViewVoucher();
 
                         } catch (Exception e) {
                             Toast.makeText(getApplicationContext(), "Error:" + e.getMessage(), Toast.LENGTH_LONG).show();
@@ -155,8 +171,5 @@ public class ViewVoucherActivity extends AppCompatActivity {
         queue.add(jsonObjectRequest);
     }
 
-    private void loadListViewVoucher() {
-        VoucherAdapter voucherAdapter = new VoucherAdapter(getApplicationContext(),voucherList);
-        listViewVoucher.setAdapter(voucherAdapter);
-    }
+
 }

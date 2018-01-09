@@ -91,12 +91,24 @@
     <string name="paying_to">Paying To</string>
     <string name="store_name">7-eleven Convenience Store</string>
     <string name="payment_amount">Payment Amount</string>
+    <string name="purchase_message">Please select purchase amount :</string>
+    <string name="message8">How to redeem?</string>
+
+
     <string-array name="reload_amount">
         <item>RM10</item>
         <item>RM30</item>
         <item>RM50</item>
     </string-array>
+    <string-array name="purchase_amount">
+        <item>RM10</item>
+        <item>RM20</item>
+        <item>RM50</item>
+        <item>RM100</item>
+    </string-array>
     <string name="select_voucher">https://easy-app.000webhostapp.com/select_voucher.php</string>
     <string name="select_voucherOrder">https://easy-app.000webhostapp.com/select_voucherorder.php</string>
+    <string name="update_voucher_status">https://easy-app.000webhostapp.com/update_voucher_status.php</string>
+    <string name="insert_voucherOrder">https://easy-app.000webhostapp.com/insert_voucher_order.php</string>
 
 </resources>

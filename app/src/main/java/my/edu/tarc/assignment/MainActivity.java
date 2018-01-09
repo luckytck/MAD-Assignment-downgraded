@@ -38,6 +38,7 @@ public class MainActivity extends AppCompatActivity
     public static final String TAG = "my.edu.tarc.assignment";
     public static final String TELCO_NAME = "telco name";
     public static final String PAYMENT_TITLE = "payment title";
+    public static final String VOUCHER_TYPE ="voucher type";
     private TextView textViewWelcome;
     private Menu menu;
     private ProgressDialog pDialog;
@@ -115,7 +116,9 @@ public class MainActivity extends AppCompatActivity
         imageButtonSteam.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
+                Intent intent = new Intent(MainActivity.this,PurchaseVoucherActivity.class);
+                intent.putExtra(VOUCHER_TYPE,"Steam Wallet Code");
+                startActivity(intent);
             }
         });
 
@@ -123,7 +126,9 @@ public class MainActivity extends AppCompatActivity
         imageButtonGarena.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
+                Intent intent = new Intent(MainActivity.this,PurchaseVoucherActivity.class);
+                intent.putExtra(VOUCHER_TYPE,"Garena Shells");
+                startActivity(intent);
             }
         });
 
@@ -131,7 +136,9 @@ public class MainActivity extends AppCompatActivity
         imageButtonPlaystation.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
+                Intent intent = new Intent(MainActivity.this,PurchaseVoucherActivity.class);
+                intent.putExtra(VOUCHER_TYPE,"PSD Digital Code");
+                startActivity(intent);
             }
         });
         Button buttonScan = (Button)findViewById(R.id.buttonScan);
