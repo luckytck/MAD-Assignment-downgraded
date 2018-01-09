@@ -96,6 +96,11 @@
             android:name="com.google.android.gms.vision.DEPENDENCIES"
             android:value="barcode" />
 
+        <activity android:name=".ViewVoucherActivity"
+            android:label="My Voucher"
+            android:parentActivityName=".MainActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme"/>
         <activity
             android:name=".PrepaidTopUpActivity"
             android:label="@string/prepaid_reload_title"
@@ -113,6 +118,7 @@
             android:parentActivityName=".QRCodeScannerActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme"></activity>
+
     </application>
 
 </manifest>

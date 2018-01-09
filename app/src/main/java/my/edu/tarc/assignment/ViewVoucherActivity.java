@@ -39,14 +39,11 @@ public class ViewVoucherActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_view_voucher);
+        pDialog = new ProgressDialog(this);
         voucherList = new ArrayList<>();
         listViewVoucher = (ListView)findViewById(R.id.listViewVoucher);
         downloadVoucherOrder(getApplicationContext(),getString(R.string.select_voucherOrder));
         getVoucherDisplay(getApplicationContext(),getString(R.string.select_voucher),voucherOrderList);
-        VoucherAdapter voucherAdapter = new VoucherAdapter(getApplicationContext(),voucherList);
-        listViewVoucher.setAdapter(voucherAdapter);
-
-
     }
     @Override
     protected void onResume() {
@@ -136,6 +133,7 @@ public class ViewVoucherActivity extends AppCompatActivity {
                                 }
 
                             }
+                            loadListViewVoucher();
 
                         } catch (Exception e) {
                             Toast.makeText(getApplicationContext(), "Error:" + e.getMessage(), Toast.LENGTH_LONG).show();
@@ -155,5 +153,10 @@ public class ViewVoucherActivity extends AppCompatActivity {
 
         // Add the request to the RequestQueue.
         queue.add(jsonObjectRequest);
+    }
+
+    private void loadListViewVoucher() {
+        VoucherAdapter voucherAdapter = new VoucherAdapter(getApplicationContext(),voucherList);
+        listViewVoucher.setAdapter(voucherAdapter);
     }
 }
