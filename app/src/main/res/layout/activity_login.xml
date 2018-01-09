@@ -112,7 +112,6 @@
         android:text="@string/register"
         android:textColor="#2196F3"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/buttonSignIn"
-        android:layout_marginRight="8dp" />
+        app:layout_constraintTop_toBottomOf="@+id/buttonSignIn" />
 
 </android.support.constraint.ConstraintLayout>

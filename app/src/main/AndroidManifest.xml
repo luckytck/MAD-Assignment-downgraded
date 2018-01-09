@@ -84,15 +84,28 @@
             android:label="QR Code Scanner"
             android:parentActivityName=".MainActivity"
             android:screenOrientation="portrait" />
-        <activity android:name=".TopUpActivity"
+        <activity
+            android:name=".WalletTopUpActivity"
             android:label="Top Up"
             android:parentActivityName=".WalletActivity"
             android:screenOrientation="portrait"
-            android:theme="@style/AppTheme"></activity>
+            android:theme="@style/AppTheme" />
 
         <meta-data
             android:name="com.google.android.gms.vision.DEPENDENCIES"
             android:value="barcode" />
+
+        <activity
+            android:name=".PrepaidTopUpActivity"
+            android:label="@string/prepaid_reload_title"
+            android:parentActivityName=".MainActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme" />
+        <activity android:name=".PaymentSuccessfulActivity"
+            android:label="Payment Successful"
+            android:parentActivityName=".MainActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppThemeHome"></activity>
     </application>
 
 </manifest>

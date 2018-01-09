@@ -1,7 +1,9 @@
 package my.edu.tarc.assignment;
 
 import android.app.ProgressDialog;
+import android.app.TaskStackBuilder;
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;

@@ -4,27 +4,36 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:textAlignment="textEnd"
-    tools:context="my.edu.tarc.assignment.TopUpActivity">
+    tools:context="my.edu.tarc.assignment.PrepaidTopUpActivity">
+
+    <ImageView
+        android:id="@+id/imageViewTelco"
+        android:layout_width="0dp"
+        android:layout_height="150dp"
+        android:scaleType="fitXY"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/digi_banner" />
 
     <TextView
-        android:id="@+id/textViewCreditDebitCard"
+        android:id="@+id/textViewReload"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginEnd="8dp"
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
         android:fontFamily="serif"
-        android:text="@string/credit_debit_card"
+        android:text="@string/reload_message"
         android:textColor="@android:color/black"
         android:textSize="18sp"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toBottomOf="@+id/imageViewTelco" />
 
     <Spinner
-        android:id="@+id/spinnerCard"
+        android:id="@+id/spinnerReloadAmount"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginEnd="8dp"
@@ -32,54 +41,37 @@
         android:layout_marginTop="8dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textViewCreditDebitCard" />
-
-    <TextView
-        android:id="@+id/textViewTopUpAmount"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="8dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="32dp"
-        android:fontFamily="serif"
-        android:text="@string/top_up_amount"
-        android:textColor="@android:color/black"
-        android:textSize="18sp"
-        android:textStyle="bold"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/spinnerCard" />
+        app:layout_constraintTop_toBottomOf="@+id/textViewReload" />
 
     <EditText
-        android:id="@+id/editTextTopUpAmount"
+        android:id="@+id/editTextPhoneNo"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginEnd="8dp"
         android:layout_marginStart="8dp"
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="8dp"
         android:ems="10"
-        android:hint="@string/min_amount"
+        android:hint="@string/phonenumber"
         android:inputType="number"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textViewTopUpAmount" />
+        app:layout_constraintTop_toBottomOf="@+id/spinnerReloadAmount" />
 
     <TextView
-        android:id="@+id/textViewPIN"
+        android:id="@+id/textViewMessage3"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginLeft="8dp"
         android:layout_marginRight="8dp"
-        android:layout_marginTop="32dp"
-        android:fontFamily="monospace"
+        android:layout_marginTop="8dp"
         android:text="@string/message3"
         android:textAlignment="center"
-        android:textSize="16sp"
+        android:textSize="18sp"
         android:textStyle="bold"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/editTextTopUpAmount" />
+        app:layout_constraintTop_toBottomOf="@+id/editTextPhoneNo" />
 
     <com.goodiebag.pinview.Pinview
         android:id="@+id/pinviewTopUpPIN"
@@ -87,19 +79,18 @@
         android:layout_height="wrap_content"
         android:layout_marginLeft="8dp"
         android:layout_marginRight="8dp"
-        android:layout_marginTop="24dp"
+        android:layout_marginTop="16dp"
         app:cursorVisible="false"
-        app:forceKeyboard="true"
         app:inputType="number"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textViewPIN"
+        app:layout_constraintTop_toBottomOf="@+id/textViewMessage3"
         app:password="true"
         app:pinLength="6"
         app:pinWidth="40dp" />
 
     <Button
-        android:id="@+id/buttonConfirmTopUp"
+        android:id="@+id/buttonConfirm"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginBottom="8dp"

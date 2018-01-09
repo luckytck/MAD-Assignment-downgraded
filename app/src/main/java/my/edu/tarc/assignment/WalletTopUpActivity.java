@@ -36,17 +36,14 @@ import org.json.JSONObject;
 
 import java.io.ByteArrayOutputStream;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
-import my.edu.tarc.assignment.Model.Card;
 import my.edu.tarc.assignment.Model.Transaction;
 import my.edu.tarc.assignment.Model.User;
 
-public class TopUpActivity extends AppCompatActivity {
+public class WalletTopUpActivity extends AppCompatActivity {
     public static final String TAG = "my.edu.tarc.assignment";
     private EditText editTextTopUpAmount;
-    private int pin;
     private double amount;
     private User user;
     private Spinner spinnerCard;
@@ -57,7 +54,7 @@ public class TopUpActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_top_up);
+        setContentView(R.layout.activity_wallet_top_up);
 
         pDialog = new ProgressDialog(this);
         editTextTopUpAmount = (EditText)findViewById(R.id.editTextTopUpAmount);
@@ -83,7 +80,7 @@ public class TopUpActivity extends AppCompatActivity {
                     if (amount < 10) {
                         Toast.makeText(getApplicationContext(), "Sorry, minimum top up value is RM10.", Toast.LENGTH_LONG).show();
                     } else if (pinviewTopUpPin.getValue().length() < 6) {
-                        Toast.makeText(getApplicationContext(), "Sorry, please enter your transaction pin.", Toast.LENGTH_LONG).show();
+                        Toast.makeText(getApplicationContext(),"Please fill up 6-Digit PIN.",Toast.LENGTH_SHORT).show();
                     } else {
                         processTopUp();
                     }
@@ -93,10 +90,11 @@ public class TopUpActivity extends AppCompatActivity {
     }
 
     private void processTopUp(){
-        validatePIN(getApplicationContext(), getString(R.string.get_user_url));
+        int pinInput = Integer.parseInt(pinviewTopUpPin.getValue());
+        validatePIN(getApplicationContext(), getString(R.string.get_user_url), pinInput);
     }
 
-    private void validatePIN(final Context context, String url){
+    private void validatePIN(final Context context, String url, final int pinInput){
         // Instantiate the RequestQueue
         queue = Volley.newRequestQueue(context);
 
@@ -122,8 +120,8 @@ public class TopUpActivity extends AppCompatActivity {
                                 String email = userResponse.getString("email");
                                 int transactionPin = userResponse.getInt("pin");
                                 double balance = userResponse.getDouble("balance");
-                                if (username.equalsIgnoreCase(loginUsername) && transactionPin == Integer.parseInt(pinviewTopUpPin.getValue())){
-                                    user = new User(username,password,name,phoneNo,email,pin, balance);
+                                if (username.equalsIgnoreCase(loginUsername) && transactionPin == pinInput){
+                                    user = new User(username,password,name,phoneNo,email,pinInput, balance);
                                     isValidPin = true;
                                     break;
                                 }
@@ -133,7 +131,7 @@ public class TopUpActivity extends AppCompatActivity {
                             } else {
                                 Toast.makeText(getApplicationContext(), "Top Up failed, incorrect PIN number.", Toast.LENGTH_LONG).show();
                             }
-                            if (pDialog.isShowing())
+                            if (pDialog.isShowing() && !isValidPin)
                                 pDialog.dismiss();
                         } catch (Exception e) {
                             Toast.makeText(getApplicationContext(), "Error:" + e.getMessage(), Toast.LENGTH_LONG).show();
@@ -186,6 +184,8 @@ public class TopUpActivity extends AppCompatActivity {
                                     Transaction transaction = new Transaction(image, getString(R.string.wallet_top_up), amount, loginUsername);
                                     recordTransaction(context, getString(R.string.insert_transaction_url), transaction);
                                 }
+                                if (pDialog.isShowing() && success == 0)
+                                    pDialog.dismiss();
                             } catch (JSONException e) {
                                 e.printStackTrace();
                             }
@@ -240,6 +240,8 @@ public class TopUpActivity extends AppCompatActivity {
                                 }else{
                                     finish();
                                 }
+                                if (pDialog.isShowing())
+                                    pDialog.dismiss();
                             } catch (JSONException e) {
                                 e.printStackTrace();
                             }
@@ -294,6 +296,21 @@ public class TopUpActivity extends AppCompatActivity {
         drawable.setBounds(0, 0, canvas.getWidth(), canvas.getHeight());
         drawable.draw(canvas);
 
-        return bitmap;
+        return getResizedBitmap(bitmap, 24);
+    }
+
+    public Bitmap getResizedBitmap(Bitmap image, int maxSize) {
+        int width = image.getWidth();
+        int height = image.getHeight();
+
+        float bitmapRatio = (float)width / (float) height;
+        if (bitmapRatio > 1) {
+            width = maxSize;
+            height = (int) (width / bitmapRatio);
+        } else {
+            height = maxSize;
+            width = (int) (height * bitmapRatio);
+        }
+        return Bitmap.createScaledBitmap(image, width, height, true);
     }
 }

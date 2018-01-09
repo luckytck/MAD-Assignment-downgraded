@@ -36,6 +36,8 @@ import my.edu.tarc.assignment.Model.User;
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
     public static final String TAG = "my.edu.tarc.assignment";
+    public static final String TELCO_NAME = "telco name";
+    public static final String PAYMENT_TITLE = "payment title";
     private TextView textViewWelcome;
     private Menu menu;
     private ProgressDialog pDialog;
@@ -73,7 +75,9 @@ public class MainActivity extends AppCompatActivity
         imageButtonDigi.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Snackbar.make(view, "testing", Snackbar.LENGTH_SHORT).setAction("test", null).show();
+                Intent intent = new Intent(MainActivity.this, PrepaidTopUpActivity.class);
+                intent.putExtra(TELCO_NAME, "Digi");
+                startActivity(intent);
             }
         });
 
@@ -81,7 +85,9 @@ public class MainActivity extends AppCompatActivity
         imageButtonUmobile.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
+                Intent intent = new Intent(MainActivity.this, PrepaidTopUpActivity.class);
+                intent.putExtra(TELCO_NAME, "Umobile");
+                startActivity(intent);
             }
         });
 
@@ -89,7 +95,9 @@ public class MainActivity extends AppCompatActivity
         imageButtonHotlink.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
+                Intent intent = new Intent(MainActivity.this, PrepaidTopUpActivity.class);
+                intent.putExtra(TELCO_NAME, "Hotlink");
+                startActivity(intent);
             }
         });
 
@@ -97,7 +105,9 @@ public class MainActivity extends AppCompatActivity
         imageButtonXpax.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
+                Intent intent = new Intent(MainActivity.this, PrepaidTopUpActivity.class);
+                intent.putExtra(TELCO_NAME, "Xpax");
+                startActivity(intent);
             }
         });
         //Image button for voucher_layout
@@ -188,7 +198,9 @@ public class MainActivity extends AppCompatActivity
             SharedPreferences.Editor editor = loginInfo.edit();
             editor.putBoolean("login_key", false);
             editor.apply();
-            finish();
+            Intent intent = new Intent(this, LoginActivity.class);
+            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+            startActivity(intent);
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -241,5 +253,11 @@ public class MainActivity extends AppCompatActivity
         //Currency currency = Currency.getInstance(Locale.getDefault());
         //String symbol = currency.getSymbol();
         menu.getItem(0).setTitle(getString(R.string.balance) + String.format("%.2f", user.getBalance()));
+    }
+
+    @Override
+    protected void onPostResume() {
+        retrieveBalance(getApplicationContext(), getString(R.string.get_balance_url));
+        super.onPostResume();
     }
 }

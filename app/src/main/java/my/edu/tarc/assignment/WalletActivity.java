@@ -66,7 +66,7 @@ public class WalletActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 if (cardList.size() > 0){
-                    Intent intent = new Intent(WalletActivity.this, TopUpActivity.class);
+                    Intent intent = new Intent(WalletActivity.this, WalletTopUpActivity.class);
                     String[] cardTitle = new String[cardList.size()];
                     for (int i = 0; i < cardList.size(); i++){
                         String cardNumber = cardList.get(i).getCardNumber();
