@@ -41,6 +41,9 @@ public class MainActivity extends AppCompatActivity
     public static final String PAYMENT_IMAGE = "payment image";
     public static final String PAYMENT_TARGET = "payment target";
     public static final String VOUCHER_TYPE ="voucher type";
+    public final static String VOUCHER_AMOUNT ="voucher amount";
+    public final static String VOUCHER_CODE="voucher code";
+    public final static String VOUCHER_EXPIRYDATE="voucher expirydate";
     private TextView textViewWelcome;
     private Menu menu;
     private ProgressDialog pDialog;

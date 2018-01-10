@@ -27,16 +27,14 @@ public class PurcahseVoucherSuccessfulActivity extends AppCompatActivity {
 
     private TextView textViewVoucherInfo,textViewVoucherCode,textViewVoucherExpiryDate,textViewRedeemMethod;
     private ImageView imageViewVoucherLogo;
-    private String vouchertype,voucheramount;
-    private RequestQueue queue;
 
-    private Voucher voucher;
-    private String vouchercode;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_purcahse_voucher_successful);
-
+        String vouchertype,voucheramount,vouchercode,expirydate;
+        String redeemMethod="";
         textViewVoucherInfo=(TextView)findViewById(R.id.textViewVoucherInfo);
         textViewVoucherCode=(TextView)findViewById(R.id.textViewVoucherCode);
         textViewVoucherExpiryDate=(TextView)findViewById(R.id.textViewVoucherExpiryDate);
@@ -44,17 +42,15 @@ public class PurcahseVoucherSuccessfulActivity extends AppCompatActivity {
         imageViewVoucherLogo= (ImageView)findViewById(R.id.imageViewVoucherLogo);
 
         Intent intent=getIntent();
-        vouchertype=intent.getStringExtra(PurchaseVoucherActivity.VOUCHER_TYPE);
-        voucheramount=intent.getStringExtra(PurchaseVoucherActivity.VOUCHER_AMOUNT);
-        vouchercode=intent.getStringExtra(PurchaseVoucherActivity.VOUCHER_CODE);
+        vouchertype=intent.getStringExtra(MainActivity.VOUCHER_TYPE);
+        voucheramount=intent.getStringExtra(MainActivity.VOUCHER_AMOUNT);
+        vouchercode=intent.getStringExtra(MainActivity.VOUCHER_CODE);
+        expirydate=intent.getStringExtra(MainActivity.VOUCHER_EXPIRYDATE);
         textViewVoucherCode.setText(vouchercode);
         textViewVoucherInfo.setText(voucheramount+" "+vouchertype);
-
-        String redeemMethod="";
-        getVouhcer(getApplicationContext(),getString(R.string.select_voucher));
-        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
-        String expirydate=formatter.format(voucher.getExpiryDate());
         textViewVoucherExpiryDate.setText("Expiry on "+expirydate);
+
+
         if(vouchertype.equalsIgnoreCase("Garena Shells")){
             imageViewVoucherLogo.setImageResource(R.drawable.logo_garena);
             redeemMethod="1.Go to your Garena Account\n 2.Click \"Add Shells\" \n " +
@@ -79,48 +75,5 @@ public class PurcahseVoucherSuccessfulActivity extends AppCompatActivity {
 
 
     }
-    private void getVouhcer(final Context context, String url){
-        // Instantiate the RequestQueue
-        queue = Volley.newRequestQueue(context);
 
-        JsonArrayRequest jsonObjectRequest = new JsonArrayRequest(
-                url,
-                new Response.Listener<JSONArray>() {
-                    @Override
-                    public void onResponse(JSONArray response) {
-                        try {
-
-                            for (int i = 0; i < response.length(); i++) {
-                                JSONObject userResponse = (JSONObject) response.get(i);
-                                String voucherCode = userResponse.getString("voucherCode");
-                                String voucherType = userResponse.getString("voucherType");
-                                double amount = userResponse.getDouble("amount");
-                                SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
-                                Date expiryDate = formatter.parse(userResponse.getString("expiryDate"));
-                                String status = userResponse.getString("status");
-
-                                if(voucherCode.equals(vouchercode)){
-                                    voucher=new Voucher(voucherCode,voucherType,amount,expiryDate,status);
-                                }
-
-                            }
-
-                        } catch (Exception e) {
-                            Toast.makeText(getApplicationContext(), "Error:" + e.getMessage(), Toast.LENGTH_LONG).show();
-                        }
-                    }
-                },
-                new Response.ErrorListener() {
-                    @Override
-                    public void onErrorResponse(VolleyError volleyError) {
-                        Toast.makeText(getApplicationContext(), "Error" + volleyError.getMessage(), Toast.LENGTH_LONG).show();
-                    }
-                });
-
-        // Set the tag on the request.
-        jsonObjectRequest.setTag(LoginActivity.TAG);
-
-        // Add the request to the RequestQueue.
-        queue.add(jsonObjectRequest);
-    }
 }

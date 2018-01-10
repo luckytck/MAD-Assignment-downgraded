@@ -53,9 +53,7 @@ import my.edu.tarc.assignment.Model.Voucher;
 import my.edu.tarc.assignment.Model.VoucherOrder;
 
 public class PurchaseVoucherActivity extends AppCompatActivity implements AdapterView.OnItemSelectedListener{
-    public final static String VOUCHER_AMOUNT ="voucher amount";
-    public final static String VOUCHER_TYPE="voucher type";
-    public final static String VOUCHER_CODE="voucher code";
+
     private Spinner spinnerPurchaseAmount;
     private Pinview pinviewTransactionPIN;
     private ImageView imageViewVoucherLogo;
@@ -80,7 +78,7 @@ public class PurchaseVoucherActivity extends AppCompatActivity implements Adapte
         pDialog = new ProgressDialog(this);
         Intent intent = getIntent();
         voucherList=new ArrayList<>();
-        voucherOrderList= new ArrayList<>();
+        //voucherOrderList= new ArrayList<>();
         vouchertype = intent.getStringExtra(MainActivity.VOUCHER_TYPE);
 
         if (vouchertype.equalsIgnoreCase("Garena Shells")){
@@ -186,23 +184,7 @@ public class PurchaseVoucherActivity extends AppCompatActivity implements Adapte
                             if (isValidPin){
                                 if (user.getBalance() >= purchaseAmount){
                                     getVoucher(context, getString(R.string.select_voucher));
-                                    if(voucherList.size()>0){
 
-                                        voucherList.get(0).setStatus("unavailable");
-                                        updateVoucherStatus(getApplicationContext(),getString(R.string.update_voucher_status),voucherList.get(0));
-                                        getVoucherOrder(getApplicationContext(),getString(R.string.select_voucherOrder));
-
-
-                                        VoucherOrder voucherOrder=new VoucherOrder();
-                                        voucherOrder.setUsername(loginUsername);
-                                        voucherOrder.setVoucherCode(voucherList.get(0).getVoucherCode());
-                                        insertVoucherOrder(getApplicationContext(),getString(R.string.insert_voucherOrder),voucherOrder);
-                                        user.setBalance(user.getBalance()-purchaseAmount);
-                                        updateBalance(getApplicationContext(),getString(R.string.update_balance_url),user);
-
-                                    }else{
-                                        Toast.makeText(getApplicationContext(), "This amount of voucher is sold out.", Toast.LENGTH_SHORT).show();
-                                    }
                                 } else {
                                     Toast.makeText(getApplicationContext(), "Purchase failed, insufficient balance.", Toast.LENGTH_LONG).show();
                                 }
@@ -254,11 +236,20 @@ public class PurchaseVoucherActivity extends AppCompatActivity implements Adapte
 
                                Voucher v=new Voucher(voucherCode,voucherType,amount,expiryDate,status);
                                 if(voucherType.equalsIgnoreCase(vouchertype) && status.equalsIgnoreCase("available")
-                                        && (int)amount==(int)purchaseAmount && System.currentTimeMillis() <expiryDate.getTime()){
+                                        && amount==purchaseAmount && System.currentTimeMillis() <expiryDate.getTime()){
                                     voucherList.add(v);
                                 }
 
                             }
+                            if(voucherList.size()>0){
+                                voucherList.get(0).setStatus("unavailable");
+                                updateVoucherStatus(getApplicationContext(),getString(R.string.update_voucher_status),voucherList.get(0));
+
+
+                            }else{
+                                Toast.makeText(getApplicationContext(), "This amount of voucher is sold out.", Toast.LENGTH_SHORT).show();
+                            }
+
 
                         } catch (Exception e) {
                             Toast.makeText(getApplicationContext(), "Error:" + e.getMessage(), Toast.LENGTH_LONG).show();
@@ -278,7 +269,7 @@ public class PurchaseVoucherActivity extends AppCompatActivity implements Adapte
         // Add the request to the RequestQueue.
         queue.add(jsonObjectRequest);
     }
-    private void getVoucherOrder(final Context context, String url){
+   /* private void getVoucherOrder(final Context context, String url){
         // Instantiate the RequestQueue
         queue = Volley.newRequestQueue(context);
 
@@ -302,6 +293,8 @@ voucherOrderList.clear();
 
                             }
 
+
+
                         } catch (Exception e) {
                             Toast.makeText(getApplicationContext(), "Error:" + e.getMessage(), Toast.LENGTH_LONG).show();
                         }
@@ -319,7 +312,7 @@ voucherOrderList.clear();
 
         // Add the request to the RequestQueue.
         queue.add(jsonObjectRequest);
-    }
+    }*/
 
 
     public void updateVoucherStatus(Context context, String url, final Voucher voucher) {
@@ -343,6 +336,16 @@ voucherOrderList.clear();
                                     Toast.makeText(getApplicationContext(), message, Toast.LENGTH_LONG).show();
                                 }else{
                                     Toast.makeText(getApplicationContext(), message, Toast.LENGTH_LONG).show();
+                                    SharedPreferences pref = getSharedPreferences("loginInfo", Context.MODE_PRIVATE);
+                                    String loginUsername = pref.getString("username", "");
+                                    VoucherOrder voucherOrder=new VoucherOrder();
+                                    voucherOrder.setUsername(loginUsername);
+                                    voucherOrder.setVoucherCode(voucherList.get(0).getVoucherCode());
+                                    insertVoucherOrder(getApplicationContext(),getString(R.string.insert_voucherOrder),voucherOrder);
+
+
+
+
                                                                     }
                             } catch (JSONException e) {
                                 e.printStackTrace();
@@ -395,6 +398,8 @@ voucherOrderList.clear();
                                     Toast.makeText(getApplicationContext(), message, Toast.LENGTH_LONG).show();
                                 }else{
                                     Toast.makeText(getApplicationContext(), message, Toast.LENGTH_LONG).show();
+                                    user.setBalance(user.getBalance()-purchaseAmount);
+                                    updateBalance(getApplicationContext(),getString(R.string.update_balance_url),user);
                                                                    }
                             } catch (JSONException e) {
                                 e.printStackTrace();
@@ -512,9 +517,11 @@ voucherOrderList.clear();
                                 }else{
                                     Toast.makeText(getApplicationContext(), "Purchase successful.", Toast.LENGTH_SHORT).show();
                                     Intent intent = new Intent(context, PurcahseVoucherSuccessfulActivity.class);
-                                    intent.putExtra(VOUCHER_AMOUNT,spinnerPurchaseAmount.getSelectedItem().toString());
-                                    intent.putExtra(VOUCHER_TYPE,vouchertype);
-                                    intent.putExtra(VOUCHER_CODE,voucherList.get(0).getVoucherCode());
+                                    intent.putExtra(MainActivity.VOUCHER_AMOUNT,spinnerPurchaseAmount.getSelectedItem().toString());
+                                    intent.putExtra(MainActivity.VOUCHER_TYPE,vouchertype);
+                                    intent.putExtra(MainActivity.VOUCHER_CODE,voucherList.get(0).getVoucherCode());
+                                    SimpleDateFormat formatter= new SimpleDateFormat("yyyy-MM-dd");
+                                    intent.putExtra(MainActivity.VOUCHER_EXPIRYDATE,formatter.format(voucherList.get(0).getExpiryDate()));
                                     TaskStackBuilder.create(PurchaseVoucherActivity.this)//Create a new stack of activities
                                             .addNextIntentWithParentStack(new Intent(PurchaseVoucherActivity.this, MainActivity.class))
                                             .addNextIntentWithParentStack(intent)

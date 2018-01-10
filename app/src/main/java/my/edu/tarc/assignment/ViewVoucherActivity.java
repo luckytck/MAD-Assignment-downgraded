@@ -34,10 +34,7 @@ public class ViewVoucherActivity extends AppCompatActivity {
     private List<Voucher> voucherList;
     private List<VoucherOrder> voucherOrderList;
     private RequestQueue queue;
-    public final static String VOUCHER_CODE="voucher code";
-    public final static String VOUCHER_TYPE="voucher type";
-    public final static String VOUCHER_AMOUNT="voucher amount";
-    public final static String VOUCHER_EXPIRYDATE="voucher expiryDate";
+
 
     private String loginUsername;
 
@@ -52,74 +49,13 @@ public class ViewVoucherActivity extends AppCompatActivity {
         SharedPreferences pref = getSharedPreferences("loginInfo", Context.MODE_PRIVATE);
         loginUsername = pref.getString("username", "");
         downloadVoucher(getApplicationContext(),getString(R.string.select_voucher));
-        downloadVoucherOrder(getApplicationContext(),getString(R.string.select_voucherOrder));
-        List<VoucherOrder> userVoucherOrderList=new ArrayList<>();
-        for(int i=0;i<voucherOrderList.size();++i){
-            if(voucherOrderList.get(i).getUsername().equalsIgnoreCase(loginUsername)){
-                userVoucherOrderList.add(voucherOrderList.get(i));
-            }
-        }
-        List<Voucher> userVoucherList= new ArrayList<>();
-
-        for(int j=0;j<userVoucherOrderList.size();++j){
-            for(int i=0;i<voucherList.size();++i){
-                if(userVoucherOrderList.get(j).getVoucherCode().equals(voucherList.get(i).getVoucherCode())){
-                    userVoucherList.add(voucherList.get(i));
-                }
-            }
-
-        }
-
-
-        final VoucherAdapter voucherAdapter = new VoucherAdapter(getApplicationContext(),userVoucherList);
-        listViewVoucher.setAdapter(voucherAdapter);
-
-listViewVoucher.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-    @Override
-    public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-        Voucher item = (Voucher) voucherAdapter.getItem(i);
-        Intent intent = new Intent(ViewVoucherActivity.this,ShowVoucherActivity.class);
-        intent.putExtra(VOUCHER_CODE,item.getVoucherCode());
-        intent.putExtra(VOUCHER_AMOUNT,String.format("%d",(int)item.getAmount()));
-        SimpleDateFormat formatter=new SimpleDateFormat("yyyy-MM-dd");
-        intent.putExtra(VOUCHER_EXPIRYDATE,formatter.format(item.getExpiryDate()));
-        intent.putExtra(VOUCHER_TYPE,item.getVoucherType());
-        startActivity(intent);
-
-    }
-});
-
-
 
     }
 
     @Override
     protected void onResume() {
         super.onResume();
-        SharedPreferences pref = getSharedPreferences("loginInfo", Context.MODE_PRIVATE);
-        loginUsername = pref.getString("username", "");
         downloadVoucher(getApplicationContext(),getString(R.string.select_voucher));
-        downloadVoucherOrder(getApplicationContext(),getString(R.string.select_voucherOrder));
-        List<VoucherOrder> userVoucherOrderList=new ArrayList<>();
-        for(int i=0;i<voucherOrderList.size();++i){
-            if(voucherOrderList.get(i).getUsername().equalsIgnoreCase(loginUsername)){
-                userVoucherOrderList.add(voucherOrderList.get(i));
-            }
-        }
-        List<Voucher> userVoucherList= new ArrayList<>();
-
-        for(int j=0;j<userVoucherOrderList.size();++j){
-            for(int i=0;i<voucherList.size();++i){
-                if(userVoucherOrderList.get(j).getVoucherCode().equals(voucherList.get(i).getVoucherCode())){
-                    userVoucherList.add(voucherList.get(i));
-                }
-            }
-
-        }
-
-
-        VoucherAdapter voucherAdapter = new VoucherAdapter(getApplicationContext(),userVoucherList);
-        listViewVoucher.setAdapter(voucherAdapter);
 
     }
 
@@ -138,14 +74,47 @@ listViewVoucher.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                                 JSONObject userResponse = (JSONObject) response.get(i);
                                 int id = userResponse.getInt("id");
                                 String voucherCode = userResponse.getString("voucherCode");
-                                SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+                                SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
                                 Date orderDate = formatter.parse(userResponse.getString("orderDate"));
                                 String username = userResponse.getString("username");
                                     VoucherOrder vOrder = new VoucherOrder(id, voucherCode, orderDate, username);
                                     voucherOrderList.add(vOrder);
 
                            }
-                            } catch (Exception e) {
+                            List<VoucherOrder> userVoucherOrderList=new ArrayList<>();
+                            for(int i=0;i<voucherOrderList.size();++i){
+                                if(voucherOrderList.get(i).getUsername().equalsIgnoreCase(loginUsername)){
+                                    userVoucherOrderList.add(voucherOrderList.get(i));
+                                }
+                            }
+                            List<Voucher> userVoucherList= new ArrayList<>();
+
+                            for(int j=0;j<userVoucherOrderList.size();++j){
+                                for(int i=0;i<voucherList.size();++i){
+                                    if(userVoucherOrderList.get(j).getVoucherCode().equals(voucherList.get(i).getVoucherCode())){
+                                        userVoucherList.add(voucherList.get(i));
+                                    }
+                                }
+
+                            }
+                            final VoucherAdapter voucherAdapter = new VoucherAdapter(getApplicationContext(),userVoucherList);
+                            listViewVoucher.setAdapter(voucherAdapter);
+                            listViewVoucher.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                                @Override
+                                public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                                    Voucher item = (Voucher) voucherAdapter.getItem(i);
+                                    Intent intent = new Intent(ViewVoucherActivity.this,PurcahseVoucherSuccessfulActivity.class);
+                                    intent.putExtra(MainActivity.VOUCHER_CODE,item.getVoucherCode());
+                                    intent.putExtra(MainActivity.VOUCHER_AMOUNT,String.format("%d",(int)item.getAmount()));
+                                    SimpleDateFormat formatter=new SimpleDateFormat("yyyy-MM-dd");
+                                    intent.putExtra(MainActivity.VOUCHER_EXPIRYDATE,formatter.format(item.getExpiryDate()));
+                                    intent.putExtra(MainActivity.VOUCHER_TYPE,item.getVoucherType());
+                                    startActivity(intent);
+
+                                }
+                            });
+
+                        } catch (Exception e) {
                             Toast.makeText(getApplicationContext(), "Error:" + e.getMessage(), Toast.LENGTH_LONG).show();
                         }
                     }
@@ -188,7 +157,7 @@ listViewVoucher.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                                         voucherList.add(v);
 
                             }
-
+                            downloadVoucherOrder(getApplicationContext(),getString(R.string.select_voucherOrder));
                         } catch (Exception e) {
                             Toast.makeText(getApplicationContext(), "Error:" + e.getMessage(), Toast.LENGTH_LONG).show();
                         }
