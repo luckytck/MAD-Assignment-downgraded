@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Patterns;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -20,6 +21,7 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.regex.Pattern;
 
 import my.edu.tarc.assignment.Model.User;
 
@@ -166,14 +168,22 @@ public class RegisterActivity extends AppCompatActivity {
             String phoneNo=editTextPhoneNumber.getText().toString();
             String email=editTextEmailAddress.getText().toString();
             String name=editTextFullName.getText().toString();
+            if(Patterns.EMAIL_ADDRESS.matcher(email).matches()){
+                if(Pattern.matches("\\d{3,4}-\\d{7,8}",phoneNo)){
+                    Intent intent = new Intent(RegisterActivity.this, PINSetupActivity.class);
+                    intent.putExtra(USER_USERNAME,username);
+                    intent.putExtra(USER_PASSWORD,password);
+                    intent.putExtra(USER_NAME,name);
+                    intent.putExtra(USER_EMAIL,email);
+                    intent.putExtra(USER_PHONENO,phoneNo);
+                    startActivity(intent);
+                }else{
+                    Toast.makeText(getApplicationContext(),"Error:PhoneNo format eg. xxx-xxxx xxxx",Toast.LENGTH_SHORT).show();
+                }
 
-            Intent intent = new Intent(RegisterActivity.this, PINSetupActivity.class);
-            intent.putExtra(USER_USERNAME,username);
-            intent.putExtra(USER_PASSWORD,password);
-            intent.putExtra(USER_NAME,name);
-            intent.putExtra(USER_EMAIL,email);
-            intent.putExtra(USER_PHONENO,phoneNo);
-            startActivity(intent);
+            }else{
+                Toast.makeText(getApplicationContext(),"Error: Invalid Email", Toast.LENGTH_SHORT).show();
+            }
         }
     }
     public boolean CheckPassword(){
