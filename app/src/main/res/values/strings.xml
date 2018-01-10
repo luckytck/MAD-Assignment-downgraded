@@ -65,26 +65,10 @@
     <string name="NewPassword">New Password</string>
     <string name="ConfirmNewPassword">Confirm New Password</string>
     <string name="btnsave">Save</string>
-
-    <string name="insert_user_url">https://easy-app.000webhostapp.com/insert_user.php</string>
-    <string name="update_user_pin">https://easy-app.000webhostapp.com/update_pin.php</string>
-    <string name="update_user_password">https://easy-app.000webhostapp.com/update_password.php</string>
-    <string name="get_user_url">http://easy-app.000webhostapp.com/select_user.php</string>
-    <string name="update_profile_url">http://easy-app.000webhostapp.com/update_profile.php</string>
-    <string name="get_card_url">http://easy-app.000webhostapp.com/select_card.php</string>
-    <string name="delete_card.url">http://easy-app.000webhostapp.com/delete_card.php</string>
-    <string name="insert_card_url">http://easy-app.000webhostapp.com/insert_card.php</string>
-    <string name="get_balance_url">http://easy-app.000webhostapp.com/get_balance.php?username=</string>
-    <string name="get_transaction_url">http://easy-app.000webhostapp.com/select_transaction.php</string>
     <string name="history_icon">Hisotry Icon</string>
     <string name="min_amount">Min. RM 10</string>
     <string name="top_up_amount">TOP UP AMOUNT</string>
     <string name="wallet_top_up">Wallet Top Up</string>
-    <string name="insert_transaction_url">https://easy-app.000webhostapp.com/insert_transaction.php</string>
-    <string name="update_balance_url">https://easy-app.000webhostapp.com/update_balance.php</string>
-    <string name="get_top_up_stock_url">https://easy-app.000webhostapp.com/get_top_up_stock.php?telcoName=</string>
-    <string name="update_top_up_stock_url">https://easy-app.000webhostapp.com/update_top_up_stock.php</string>
-    <string name="get_store_url">https://easy-app.000webhostapp.com/select_store.php?storeName=</string>
     <string name="prepaid_reload_title">" Reload"</string>
     <string name="reload_message">Please select the reload amount</string>
     <string name="payment_successful">Payment Successful</string>
@@ -94,7 +78,6 @@
     <string name="payment_amount">Payment Amount</string>
     <string name="purchase_message">Please select purchase amount :</string>
     <string name="message8">How to redeem?</string>
-
 
     <string-array name="reload_amount">
         <item>RM10</item>
@@ -107,10 +90,25 @@
         <item>RM50</item>
         <item>RM100</item>
     </string-array>
+
     <string name="select_voucher">https://easy-app.000webhostapp.com/select_voucher.php</string>
     <string name="select_voucherOrder">https://easy-app.000webhostapp.com/select_voucherorder.php</string>
     <string name="update_voucher_status">https://easy-app.000webhostapp.com/update_voucher_status.php</string>
     <string name="insert_voucherOrder">https://easy-app.000webhostapp.com/insert_voucher_order.php</string>
     <string name="steam_wallet_code">RM10 Steam Wallet Code</string>
-
+    <string name="insert_transaction_url">https://easy-app.000webhostapp.com/insert_transaction.php</string>
+    <string name="update_balance_url">https://easy-app.000webhostapp.com/update_balance.php</string>
+    <string name="get_top_up_stock_url">https://easy-app.000webhostapp.com/get_top_up_stock.php?telcoName=</string>
+    <string name="update_top_up_stock_url">https://easy-app.000webhostapp.com/update_top_up_stock.php</string>
+    <string name="get_store_url">https://easy-app.000webhostapp.com/select_store.php?storeName=</string>
+    <string name="insert_user_url">https://easy-app.000webhostapp.com/insert_user.php</string>
+    <string name="update_user_pin">https://easy-app.000webhostapp.com/update_pin.php</string>
+    <string name="update_user_password">https://easy-app.000webhostapp.com/update_password.php</string>
+    <string name="get_user_url">http://easy-app.000webhostapp.com/select_user.php</string>
+    <string name="update_profile_url">http://easy-app.000webhostapp.com/update_profile.php</string>
+    <string name="get_card_url">http://easy-app.000webhostapp.com/select_card.php</string>
+    <string name="delete_card.url">http://easy-app.000webhostapp.com/delete_card.php</string>
+    <string name="insert_card_url">http://easy-app.000webhostapp.com/insert_card.php</string>
+    <string name="get_balance_url">http://easy-app.000webhostapp.com/get_balance.php?username=</string>
+    <string name="get_transaction_url">http://easy-app.000webhostapp.com/select_transaction.php</string>
 </resources>
