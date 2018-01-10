@@ -72,19 +72,16 @@ public class VoucherAdapter  extends BaseAdapter {
             holder.imageViewVoucherIcon = (ImageView)convertView.findViewById(R.id.imageViewVoucherIcon3);
             holder.textViewTitle = (TextView)convertView.findViewById(R.id.textViewVoucherTitle);
 
-
             Voucher voucher = voucherListList.get(position);
 
-            holder.textViewTitle.setText(String.valueOf((int)voucher.getAmount())+" "+voucher.getVoucherType());
+            holder.textViewTitle.setText(context.getString(R.string.balance) + String.valueOf((int)voucher.getAmount())+" "+voucher.getVoucherType());
             if(voucher.getVoucherType().equalsIgnoreCase("Garena Shells")){
                 holder.imageViewVoucherIcon.setImageResource(R.drawable.garena);
             }else if(voucher.getVoucherType().equalsIgnoreCase("Steam Wallet Code")){
                 holder.imageViewVoucherIcon.setImageResource(R.drawable.steam);
-            }else if(voucher.getVoucherType().equalsIgnoreCase("PSD Digital Code")){
+            }else if(voucher.getVoucherType().equalsIgnoreCase("PSN Digital Code")){
                 holder.imageViewVoucherIcon.setImageResource(R.drawable.playstation);
             }
-
-
             convertView.setTag(holder);
         } else {
             holder = (ViewHolder) convertView.getTag();

@@ -142,7 +142,7 @@ public class MainActivity extends AppCompatActivity
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(MainActivity.this,PurchaseVoucherActivity.class);
-                intent.putExtra(VOUCHER_TYPE,"PSD Digital Code");
+                intent.putExtra(VOUCHER_TYPE,"PSN Digital Code");
                 startActivity(intent);
             }
         });

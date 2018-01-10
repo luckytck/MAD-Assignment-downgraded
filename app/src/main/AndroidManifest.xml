@@ -128,9 +128,9 @@
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme" />
         <activity
-            android:name=".PurcahseVoucherSuccessfulActivity"
+            android:name=".ShowVoucherDetailsActivity"
             android:label="Voucher Code"
-            android:parentActivityName=".PurchaseVoucherActivity"
+            android:parentActivityName=".ViewVoucherActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme" />
     </application>

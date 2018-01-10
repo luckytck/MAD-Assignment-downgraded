@@ -111,5 +111,6 @@
     <string name="select_voucherOrder">https://easy-app.000webhostapp.com/select_voucherorder.php</string>
     <string name="update_voucher_status">https://easy-app.000webhostapp.com/update_voucher_status.php</string>
     <string name="insert_voucherOrder">https://easy-app.000webhostapp.com/insert_voucher_order.php</string>
+    <string name="steam_wallet_code">RM10 Steam Wallet Code</string>
 
 </resources>

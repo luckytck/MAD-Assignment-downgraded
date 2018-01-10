@@ -52,8 +52,7 @@ import my.edu.tarc.assignment.Model.User;
 import my.edu.tarc.assignment.Model.Voucher;
 import my.edu.tarc.assignment.Model.VoucherOrder;
 
-public class PurchaseVoucherActivity extends AppCompatActivity implements AdapterView.OnItemSelectedListener{
-
+public class PurchaseVoucherActivity extends AppCompatActivity implements AdapterView.OnItemSelectedListener {
     private Spinner spinnerPurchaseAmount;
     private Pinview pinviewTransactionPIN;
     private ImageView imageViewVoucherLogo;
@@ -72,24 +71,24 @@ public class PurchaseVoucherActivity extends AppCompatActivity implements Adapte
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_purchase_voucher);
 
-        spinnerPurchaseAmount=(Spinner)findViewById(R.id.spinnerPurchaseAmount);
-        pinviewTransactionPIN = (Pinview)findViewById(R.id.pinviewPurchasePIN);
-        imageViewVoucherLogo=(ImageView)findViewById(R.id.imageViewVoucherLogo);
+        spinnerPurchaseAmount = (Spinner) findViewById(R.id.spinnerPurchaseAmount);
+        pinviewTransactionPIN = (Pinview) findViewById(R.id.pinviewPurchasePIN);
+        imageViewVoucherLogo = (ImageView) findViewById(R.id.imageViewVoucherLogo);
         pDialog = new ProgressDialog(this);
         Intent intent = getIntent();
-        voucherList=new ArrayList<>();
+        voucherList = new ArrayList<>();
         //voucherOrderList= new ArrayList<>();
         vouchertype = intent.getStringExtra(MainActivity.VOUCHER_TYPE);
 
-        if (vouchertype.equalsIgnoreCase("Garena Shells")){
+        if (vouchertype.equalsIgnoreCase("Garena Shells")) {
             imageViewVoucherLogo.setImageResource(R.drawable.logo_garena);
-            bitmap = getBitmapFromVectorDrawable(getApplicationContext(), R.drawable.logo_garena);
-        } else if (vouchertype.equalsIgnoreCase("Steam Wallet Code")){
+            bitmap = getBitmapFromVectorDrawable(getApplicationContext(), R.drawable.garena);
+        } else if (vouchertype.equalsIgnoreCase("Steam Wallet Code")) {
             imageViewVoucherLogo.setImageResource(R.drawable.logo_steam);
-            bitmap = getBitmapFromVectorDrawable(getApplicationContext(), R.drawable.logo_steam);
-        } else if (vouchertype.equalsIgnoreCase("PSD Digital Code")){
-            imageViewVoucherLogo.setImageResource(R.drawable.logo_psd);
-            bitmap = getBitmapFromVectorDrawable(getApplicationContext(), R.drawable.logo_psd);
+            bitmap = getBitmapFromVectorDrawable(getApplicationContext(), R.drawable.steam);
+        } else if (vouchertype.equalsIgnoreCase("PSN Digital Code")) {
+            imageViewVoucherLogo.setImageResource(R.drawable.logo_psn);
+            bitmap = getBitmapFromVectorDrawable(getApplicationContext(), R.drawable.playstation);
         }
         //Create an adapter for spinner
         ArrayAdapter<CharSequence> adapter =
@@ -102,19 +101,18 @@ public class PurchaseVoucherActivity extends AppCompatActivity implements Adapte
         spinnerPurchaseAmount.setOnItemSelectedListener((AdapterView.OnItemSelectedListener) this);
         spinnerPurchaseAmount.setAdapter(adapter);
 
-        Button buttonConfirm = (Button)findViewById(R.id.buttonConfirm5);
+        Button buttonConfirm = (Button) findViewById(R.id.buttonConfirm5);
         buttonConfirm.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
                 int pos = spinnerPurchaseAmount.getSelectedItemPosition();
-                if (pos == -1){
+                if (pos == -1) {
                     Toast.makeText(getApplicationContext(), "Please select purchase amount.", Toast.LENGTH_LONG).show();
-                }  else if (pinviewTransactionPIN.getValue().length() < 6){
-                    Toast.makeText(getApplicationContext(),"Please fill up 6-Digit PIN.",Toast.LENGTH_SHORT).show();
+                } else if (pinviewTransactionPIN.getValue().length() < 6) {
+                    Toast.makeText(getApplicationContext(), "Please fill up 6-Digit PIN.", Toast.LENGTH_SHORT).show();
                 } else {
                     pinInput = Integer.parseInt(pinviewTransactionPIN.getValue());
-                    switch (pos){
+                    switch (pos) {
                         case 0:
                             purchaseAmount = 10;
                             break;
@@ -130,15 +128,12 @@ public class PurchaseVoucherActivity extends AppCompatActivity implements Adapte
                         default:
                             purchaseAmount = 0;
                     }
-                    validatePIN(getApplicationContext(),getString(R.string.get_user_url));
+                    validatePIN(getApplicationContext(), getString(R.string.get_user_url));
                 }
             }
         });
-
-
-
-
     }
+
     @Override
     public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
         ((TextView) adapterView.getChildAt(0)).setTextColor(Color.BLUE);
@@ -149,7 +144,8 @@ public class PurchaseVoucherActivity extends AppCompatActivity implements Adapte
     public void onNothingSelected(AdapterView<?> adapterView) {
 
     }
-    private void validatePIN(final Context context, String url){
+
+    private void validatePIN(final Context context, String url) {
         // Instantiate the RequestQueue
         queue = Volley.newRequestQueue(context);
 
@@ -175,16 +171,15 @@ public class PurchaseVoucherActivity extends AppCompatActivity implements Adapte
                                 String email = userResponse.getString("email");
                                 int transactionPin = userResponse.getInt("pin");
                                 double balance = userResponse.getDouble("balance");
-                                if (username.equalsIgnoreCase(loginUsername) && transactionPin == pinInput){
-                                    user = new User(username,password,name,phoneNo,email,pinInput, balance);
+                                if (username.equalsIgnoreCase(loginUsername) && transactionPin == pinInput) {
+                                    user = new User(username, password, name, phoneNo, email, pinInput, balance);
                                     isValidPin = true;
                                     break;
                                 }
                             }
-                            if (isValidPin){
-                                if (user.getBalance() >= purchaseAmount){
+                            if (isValidPin) {
+                                if (user.getBalance() >= purchaseAmount) {
                                     getVoucher(context, getString(R.string.select_voucher));
-
                                 } else {
                                     Toast.makeText(getApplicationContext(), "Purchase failed, insufficient balance.", Toast.LENGTH_LONG).show();
                                 }
@@ -195,6 +190,8 @@ public class PurchaseVoucherActivity extends AppCompatActivity implements Adapte
                                 pDialog.dismiss();
                         } catch (Exception e) {
                             Toast.makeText(getApplicationContext(), "Error:" + e.getMessage(), Toast.LENGTH_LONG).show();
+                            if (pDialog.isShowing())
+                                pDialog.dismiss();
                         }
                     }
                 },
@@ -214,7 +211,7 @@ public class PurchaseVoucherActivity extends AppCompatActivity implements Adapte
         queue.add(jsonObjectRequest);
     }
 
-    private void getVoucher(final Context context, String url){
+    private void getVoucher(final Context context, String url) {
         // Instantiate the RequestQueue
         queue = Volley.newRequestQueue(context);
 
@@ -224,7 +221,7 @@ public class PurchaseVoucherActivity extends AppCompatActivity implements Adapte
                     @Override
                     public void onResponse(JSONArray response) {
                         try {
-                                voucherList.clear();
+                            voucherList.clear();
                             for (int i = 0; i < response.length(); i++) {
                                 JSONObject userResponse = (JSONObject) response.get(i);
                                 String voucherCode = userResponse.getString("voucherCode");
@@ -234,25 +231,25 @@ public class PurchaseVoucherActivity extends AppCompatActivity implements Adapte
                                 Date expiryDate = formatter.parse(userResponse.getString("expiryDate"));
                                 String status = userResponse.getString("status");
 
-                               Voucher v=new Voucher(voucherCode,voucherType,amount,expiryDate,status);
-                                if(voucherType.equalsIgnoreCase(vouchertype) && status.equalsIgnoreCase("available")
-                                        && amount==purchaseAmount && System.currentTimeMillis() <expiryDate.getTime()){
+                                Voucher v = new Voucher(voucherCode, voucherType, amount, expiryDate, status);
+                                if (voucherType.equalsIgnoreCase(vouchertype) && status.equalsIgnoreCase("available")
+                                        && amount == purchaseAmount && System.currentTimeMillis() < expiryDate.getTime()) {
                                     voucherList.add(v);
                                 }
 
                             }
-                            if(voucherList.size()>0){
+                            if (voucherList.size() > 0) {
                                 voucherList.get(0).setStatus("unavailable");
-                                updateVoucherStatus(getApplicationContext(),getString(R.string.update_voucher_status),voucherList.get(0));
-
-
-                            }else{
+                                updateVoucherStatus(getApplicationContext(), getString(R.string.update_voucher_status), voucherList.get(0));
+                            } else {
                                 Toast.makeText(getApplicationContext(), "This amount of voucher is sold out.", Toast.LENGTH_SHORT).show();
                             }
-
-
+                            if ((pDialog.isShowing() && voucherList.size() <= 0))
+                                pDialog.dismiss();
                         } catch (Exception e) {
                             Toast.makeText(getApplicationContext(), "Error:" + e.getMessage(), Toast.LENGTH_LONG).show();
+                            if (pDialog.isShowing())
+                                pDialog.dismiss();
                         }
                     }
                 },
@@ -260,7 +257,9 @@ public class PurchaseVoucherActivity extends AppCompatActivity implements Adapte
                     @Override
                     public void onErrorResponse(VolleyError volleyError) {
                         Toast.makeText(getApplicationContext(), "Error" + volleyError.getMessage(), Toast.LENGTH_LONG).show();
-                                           }
+                        if (pDialog.isShowing())
+                            pDialog.dismiss();
+                    }
                 });
 
         // Set the tag on the request.
@@ -269,51 +268,6 @@ public class PurchaseVoucherActivity extends AppCompatActivity implements Adapte
         // Add the request to the RequestQueue.
         queue.add(jsonObjectRequest);
     }
-   /* private void getVoucherOrder(final Context context, String url){
-        // Instantiate the RequestQueue
-        queue = Volley.newRequestQueue(context);
-
-        JsonArrayRequest jsonObjectRequest = new JsonArrayRequest(
-                url,
-                new Response.Listener<JSONArray>() {
-                    @Override
-                    public void onResponse(JSONArray response) {
-                        try {
-voucherOrderList.clear();
-                            for (int i = 0; i < response.length(); i++) {
-                                JSONObject userResponse = (JSONObject) response.get(i);
-                                int id = userResponse.getInt("id");
-                                String voucherCode = userResponse.getString("voucherCode");
-                                  SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-                                Date orderDate = formatter.parse(userResponse.getString("orderDate"));
-                                String username = userResponse.getString("username");
-
-                                VoucherOrder vo=new VoucherOrder(id,voucherCode,orderDate,username);
-                               voucherOrderList.add(vo);
-
-                            }
-
-
-
-                        } catch (Exception e) {
-                            Toast.makeText(getApplicationContext(), "Error:" + e.getMessage(), Toast.LENGTH_LONG).show();
-                        }
-                    }
-                },
-                new Response.ErrorListener() {
-                    @Override
-                    public void onErrorResponse(VolleyError volleyError) {
-                        Toast.makeText(getApplicationContext(), "Error" + volleyError.getMessage(), Toast.LENGTH_LONG).show();
-                    }
-                });
-
-        // Set the tag on the request.
-        jsonObjectRequest.setTag(LoginActivity.TAG);
-
-        // Add the request to the RequestQueue.
-        queue.add(jsonObjectRequest);
-    }*/
-
 
     public void updateVoucherStatus(Context context, String url, final Voucher voucher) {
         //mPostCommentResponse.requestStarted();
@@ -328,34 +282,35 @@ voucherOrderList.clear();
                         @Override
                         public void onResponse(String response) {
                             JSONObject jsonObject;
+                            int success = 0;
                             try {
                                 jsonObject = new JSONObject(response);
-                                int success = jsonObject.getInt("success");
+                                success = jsonObject.getInt("success");
                                 String message = jsonObject.getString("message");
-                                if (success==0) {
+                                if (success == 0) {
                                     Toast.makeText(getApplicationContext(), message, Toast.LENGTH_LONG).show();
-                                }else{
+                                } else {
                                     Toast.makeText(getApplicationContext(), message, Toast.LENGTH_LONG).show();
                                     SharedPreferences pref = getSharedPreferences("loginInfo", Context.MODE_PRIVATE);
                                     String loginUsername = pref.getString("username", "");
-                                    VoucherOrder voucherOrder=new VoucherOrder();
+                                    VoucherOrder voucherOrder = new VoucherOrder();
                                     voucherOrder.setUsername(loginUsername);
                                     voucherOrder.setVoucherCode(voucherList.get(0).getVoucherCode());
-                                    insertVoucherOrder(getApplicationContext(),getString(R.string.insert_voucherOrder),voucherOrder);
-
-
-
-
-                                                                    }
+                                    insertVoucherOrder(getApplicationContext(), getString(R.string.insert_voucherOrder), voucherOrder);
+                                }
                             } catch (JSONException e) {
                                 e.printStackTrace();
                             }
+                            if (pDialog.isShowing() && success == 0)
+                                pDialog.dismiss();
                         }
                     },
                     new Response.ErrorListener() {
                         @Override
                         public void onErrorResponse(VolleyError error) {
                             Toast.makeText(getApplicationContext(), "Error. " + error.toString(), Toast.LENGTH_LONG).show();
+                            if (pDialog.isShowing())
+                                pDialog.dismiss();
                         }
                     }) {
                 @Override
@@ -378,7 +333,8 @@ voucherOrderList.clear();
             e.printStackTrace();
         }
     }
-    public void insertVoucherOrder(Context context,String url,final VoucherOrder voucherOrder){
+
+    public void insertVoucherOrder(Context context, String url, final VoucherOrder voucherOrder) {
         //mPostCommentResponse.requestStarted();
         RequestQueue queue = Volley.newRequestQueue(context);
         //Send data
@@ -390,33 +346,38 @@ voucherOrderList.clear();
                         @Override
                         public void onResponse(String response) {
                             JSONObject jsonObject;
+                            int success = 0;
                             try {
                                 jsonObject = new JSONObject(response);
-                                int success = jsonObject.getInt("success");
+                                success = jsonObject.getInt("success");
                                 String message = jsonObject.getString("message");
-                                if (success==0) {
+                                if (success == 0) {
                                     Toast.makeText(getApplicationContext(), message, Toast.LENGTH_LONG).show();
-                                }else{
+                                } else {
                                     Toast.makeText(getApplicationContext(), message, Toast.LENGTH_LONG).show();
-                                    user.setBalance(user.getBalance()-purchaseAmount);
-                                    updateBalance(getApplicationContext(),getString(R.string.update_balance_url),user);
-                                                                   }
+                                    user.setBalance(user.getBalance() - purchaseAmount);
+                                    updateBalance(getApplicationContext(), getString(R.string.update_balance_url), user);
+                                }
                             } catch (JSONException e) {
                                 e.printStackTrace();
                             }
+                            if (pDialog.isShowing() && success == 0)
+                                pDialog.dismiss();
                         }
                     },
                     new Response.ErrorListener() {
                         @Override
                         public void onErrorResponse(VolleyError error) {
                             Toast.makeText(getApplicationContext(), "Error. " + error.toString(), Toast.LENGTH_LONG).show();
+                            if (pDialog.isShowing())
+                                pDialog.dismiss();
                         }
                     }) {
                 @Override
                 protected Map<String, String> getParams() {
                     Map<String, String> params = new HashMap<>();
 
-                    params.put("voucherCode",voucherOrder.getVoucherCode());
+                    params.put("voucherCode", voucherOrder.getVoucherCode());
                     params.put("username", voucherOrder.getUsername());
                     return params;
                 }
@@ -432,9 +393,8 @@ voucherOrderList.clear();
         } catch (Exception e) {
             e.printStackTrace();
         }
-
-
     }
+
     public void updateBalance(final Context context, String url, final User user) {
         //mPostCommentResponse.requestStarted();
         RequestQueue queue = Volley.newRequestQueue(context);
@@ -448,31 +408,34 @@ voucherOrderList.clear();
                         @Override
                         public void onResponse(String response) {
                             JSONObject jsonObject;
+                            int success = 0;
                             try {
                                 jsonObject = new JSONObject(response);
-                                int success = jsonObject.getInt("success");
+                                success = jsonObject.getInt("success");
                                 String message = jsonObject.getString("message");
-                                if (success==0) {
+                                if (success == 0) {
                                     Toast.makeText(getApplicationContext(), "Purchase failed.", Toast.LENGTH_LONG).show();
-                                }else{
+                                } else {
                                     String image = getStringImage(bitmap);
                                     SharedPreferences pref = getSharedPreferences("loginInfo", Context.MODE_PRIVATE);
                                     String loginUsername = pref.getString("username", "");
 
-                                    Transaction transaction = new Transaction(image, vouchertype + " Purchase", -purchaseAmount, loginUsername);
+                                    Transaction transaction = new Transaction(image, vouchertype, -purchaseAmount, loginUsername);
                                     recordTransaction(context, getString(R.string.insert_transaction_url), transaction);
                                 }
-                                if (pDialog.isShowing() && success == 0)
-                                    pDialog.dismiss();
                             } catch (JSONException e) {
                                 e.printStackTrace();
                             }
+                            if (pDialog.isShowing() && success == 0)
+                                pDialog.dismiss();
                         }
                     },
                     new Response.ErrorListener() {
                         @Override
                         public void onErrorResponse(VolleyError error) {
                             Toast.makeText(getApplicationContext(), "Error. " + error.toString(), Toast.LENGTH_LONG).show();
+                            if (pDialog.isShowing())
+                                pDialog.dismiss();
                         }
                     }) {
                 @Override
@@ -495,6 +458,7 @@ voucherOrderList.clear();
             e.printStackTrace();
         }
     }
+
     public void recordTransaction(final Context context, String url, final Transaction transaction) {
         //mPostCommentResponse.requestStarted();
         RequestQueue queue = Volley.newRequestQueue(context);
@@ -511,23 +475,22 @@ voucherOrderList.clear();
                             try {
                                 jsonObject = new JSONObject(response);
                                 int success = jsonObject.getInt("success");
-                              //  String message = jsonObject.getString("message");
-                                if (success==0) {
+                                //  String message = jsonObject.getString("message");
+                                if (success == 0) {
                                     Toast.makeText(getApplicationContext(), "Insert transaction failed.", Toast.LENGTH_LONG).show();
-                                }else{
+                                } else {
                                     Toast.makeText(getApplicationContext(), "Purchase successful.", Toast.LENGTH_SHORT).show();
-                                    Intent intent = new Intent(context, PurcahseVoucherSuccessfulActivity.class);
-                                    intent.putExtra(MainActivity.VOUCHER_AMOUNT,spinnerPurchaseAmount.getSelectedItem().toString());
-                                    intent.putExtra(MainActivity.VOUCHER_TYPE,vouchertype);
-                                    intent.putExtra(MainActivity.VOUCHER_CODE,voucherList.get(0).getVoucherCode());
-                                    SimpleDateFormat formatter= new SimpleDateFormat("yyyy-MM-dd");
-                                    intent.putExtra(MainActivity.VOUCHER_EXPIRYDATE,formatter.format(voucherList.get(0).getExpiryDate()));
+                                    Intent intent = new Intent(context, ShowVoucherDetailsActivity.class);
+                                    intent.putExtra(MainActivity.VOUCHER_AMOUNT, spinnerPurchaseAmount.getSelectedItem().toString());
+                                    intent.putExtra(MainActivity.VOUCHER_TYPE, vouchertype);
+                                    intent.putExtra(MainActivity.VOUCHER_CODE, voucherList.get(0).getVoucherCode());
+                                    SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+                                    intent.putExtra(MainActivity.VOUCHER_EXPIRYDATE, formatter.format(voucherList.get(0).getExpiryDate()));
                                     TaskStackBuilder.create(PurchaseVoucherActivity.this)//Create a new stack of activities
                                             .addNextIntentWithParentStack(new Intent(PurchaseVoucherActivity.this, MainActivity.class))
+                                            .addNextIntentWithParentStack(new Intent(PurchaseVoucherActivity.this, ViewVoucherActivity.class))
                                             .addNextIntentWithParentStack(intent)
                                             .startActivities();
-
-
                                 }
                                 if (pDialog.isShowing())
                                     pDialog.dismiss();
@@ -540,6 +503,8 @@ voucherOrderList.clear();
                         @Override
                         public void onErrorResponse(VolleyError error) {
                             Toast.makeText(getApplicationContext(), "Error. " + error.toString(), Toast.LENGTH_LONG).show();
+                            if (pDialog.isShowing())
+                                pDialog.dismiss();
                         }
                     }) {
                 @Override
@@ -564,6 +529,7 @@ voucherOrderList.clear();
             e.printStackTrace();
         }
     }
+
     //Convert bitmap image to string
     public String getStringImage(Bitmap bmp) {
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
@@ -572,6 +538,7 @@ voucherOrderList.clear();
         String encodedImage = Base64.encodeToString(imageBytes, Base64.DEFAULT);
         return encodedImage;
     }
+
     //Get Bitmap image from drawable or vector image
     public Bitmap getBitmapFromVectorDrawable(Context context, int drawableId) {
         Drawable drawable = ContextCompat.getDrawable(context, drawableId);
@@ -587,12 +554,13 @@ voucherOrderList.clear();
 
         return getResizedBitmap(bitmap, 24);
     }
+
     //Compress Bitmap image
     public Bitmap getResizedBitmap(Bitmap image, int maxSize) {
         int width = image.getWidth();
         int height = image.getHeight();
 
-        float bitmapRatio = (float)width / (float) height;
+        float bitmapRatio = (float) width / (float) height;
         if (bitmapRatio > 1) {
             width = maxSize;
             height = (int) (width / bitmapRatio);
