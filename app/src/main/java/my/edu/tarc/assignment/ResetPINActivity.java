@@ -55,9 +55,11 @@ public class ResetPINActivity extends AppCompatActivity {
                 Pinview pinview=(Pinview)findViewById(R.id.pinviewTopUpPIN);
                 String PIN = pinview.getValue().toString();
                 String password = editTextPassword.getText().toString();
+                //validate the pin
                 if (PIN.isEmpty() || PIN.length()<6){
                     Toast.makeText(getApplicationContext(), "Please enter 6-Digits PIN", Toast.LENGTH_SHORT).show();
                 } else {
+                    //checking the password
                     if(checkPassword(username,password)){
                         User user = new User();
                         user.setUsername(username);

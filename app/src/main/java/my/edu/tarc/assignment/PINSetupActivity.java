@@ -39,9 +39,11 @@ public class PINSetupActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Pinview PIN=(Pinview)findViewById(R.id.pinviewTopUpPIN);
+                //check input pin
             if(PIN.getValue().length()<6){
                 Toast.makeText(getApplicationContext(),"Error:"+"Please fill up 6-Digit PIN.",Toast.LENGTH_SHORT).show();
             }else{
+                //get the user details from register activity
                 String username,password,phoneNo,email,name,transactionPIN;
                 Intent intent=getIntent();
                 username=intent.getStringExtra(RegisterActivity.USER_USERNAME);
@@ -53,6 +55,7 @@ public class PINSetupActivity extends AppCompatActivity {
                 User user=new User(username,password,name,phoneNo,email,Integer.parseInt(transactionPIN),0.0);
 
                 try {
+                    //store user data into server
                     InsertUser(PINSetupActivity.this, getString(R.string.insert_user_url), user);
 
                 } catch (Exception e) {

@@ -44,6 +44,7 @@ public class ChangePasswordActivity extends AppCompatActivity {
         editTextOldPassword=(EditText)findViewById(R.id.editTextOldPassword);
         editTextNewPassword=(EditText)findViewById(R.id.editTextNewPassword);
         editTextConfirmNewPassword=(EditText)findViewById(R.id.editTextConfirmNewPassword);
+        //to get all user in server
         downloadUser(getApplicationContext(), getString(R.string.get_user_url));
         Button buttonSave=(Button)findViewById(R.id.buttonSave);
         buttonSave.setOnClickListener(new View.OnClickListener() {
@@ -54,6 +55,7 @@ public class ChangePasswordActivity extends AppCompatActivity {
                 String oldpassword = editTextOldPassword.getText().toString();
                 String newpassword = editTextNewPassword.getText().toString();
                 String confirmnewpassword = editTextConfirmNewPassword.getText().toString();
+                //check empty input
                 if(oldpassword.isEmpty()){
                     Toast.makeText(getApplicationContext(),"Please enter Old Password",Toast.LENGTH_SHORT).show();
                 }else if(newpassword.isEmpty() ){
@@ -61,6 +63,7 @@ public class ChangePasswordActivity extends AppCompatActivity {
                 }else if(confirmnewpassword.isEmpty()){
                     Toast.makeText(getApplicationContext(),"Please enter Confirm New Password",Toast.LENGTH_SHORT).show();
                 }else {
+                    //compare password
                     if (!newpassword.equals(confirmnewpassword)) {
                         Toast.makeText(getApplicationContext(), "New Password and Confirm New Password must be same.", Toast.LENGTH_SHORT).show();
                     } else {
@@ -70,6 +73,7 @@ public class ChangePasswordActivity extends AppCompatActivity {
                             user.setPassword(newpassword);
 
                             try {
+                                //change the passowrd of user database
                                 updatePassword(ChangePasswordActivity.this, getString(R.string.update_user_password), user);
                             } catch (Exception e) {
                                 e.printStackTrace();

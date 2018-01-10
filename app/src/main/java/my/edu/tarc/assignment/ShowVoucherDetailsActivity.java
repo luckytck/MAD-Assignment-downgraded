@@ -21,7 +21,7 @@ public class ShowVoucherDetailsActivity extends AppCompatActivity {
         textViewVoucherExpiryDate = (TextView) findViewById(R.id.textViewVoucherExpiryDate);
         textViewRedeemMethod = (TextView) findViewById(R.id.textViewRedeemMethod);
         imageViewVoucherLogo = (ImageView) findViewById(R.id.imageViewVoucherLogo);
-
+//to get the voucher info from last activity
         Intent intent = getIntent();
         vouchertype = intent.getStringExtra(MainActivity.VOUCHER_TYPE);
         voucheramount = intent.getStringExtra(MainActivity.VOUCHER_AMOUNT);
@@ -30,7 +30,7 @@ public class ShowVoucherDetailsActivity extends AppCompatActivity {
         textViewVoucherCode.setText(vouchercode);
         textViewVoucherInfo.setText(getString(R.string.balance) + voucheramount + " " + vouchertype);
         textViewVoucherExpiryDate.setText("Expiry on " + expirydate);
-
+//to get the correct voucher type
         if (vouchertype.equalsIgnoreCase("Garena Shells")) {
             imageViewVoucherLogo.setImageResource(R.drawable.logo_garena);
             redeemMethod = "1. Go to your Garena Account\n" +

@@ -48,6 +48,7 @@ public class ViewVoucherActivity extends AppCompatActivity {
         listViewVoucher = (ListView) findViewById(R.id.listViewVoucherList);
         SharedPreferences pref = getSharedPreferences("loginInfo", Context.MODE_PRIVATE);
         loginUsername = pref.getString("username", "");
+        //get all the voucher from database
         downloadVoucher(getApplicationContext(), getString(R.string.select_voucher));
     }
 
@@ -79,6 +80,7 @@ public class ViewVoucherActivity extends AppCompatActivity {
                                 voucherOrderList.add(vOrder);
 
                             }
+                            //get the voucher order of user
                             List<VoucherOrder> userVoucherOrderList = new ArrayList<>();
                             for (int i = 0; i < voucherOrderList.size(); ++i) {
                                 if (voucherOrderList.get(i).getUsername().equalsIgnoreCase(loginUsername)) {
@@ -86,7 +88,7 @@ public class ViewVoucherActivity extends AppCompatActivity {
                                 }
                             }
                             List<Voucher> userVoucherList = new ArrayList<>();
-
+                            //get the voucher that match with voucher order of user
                             for (int j = 0; j < userVoucherOrderList.size(); ++j) {
                                 for (int i = 0; i < voucherList.size(); ++i) {
                                     if (userVoucherOrderList.get(j).getVoucherCode().equals(voucherList.get(i).getVoucherCode())) {
@@ -94,6 +96,7 @@ public class ViewVoucherActivity extends AppCompatActivity {
                                     }
                                 }
                             }
+                            //set the items display on listview
                             final VoucherAdapter voucherAdapter = new VoucherAdapter(getApplicationContext(), userVoucherList);
                             listViewVoucher.setAdapter(voucherAdapter);
                             if (pDialog.isShowing())
@@ -101,6 +104,7 @@ public class ViewVoucherActivity extends AppCompatActivity {
                             listViewVoucher.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                                 @Override
                                 public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                                    //passing the voucher details to ShowVoucherDetailsActivity
                                     Voucher item = (Voucher) voucherAdapter.getItem(i);
                                     Intent intent = new Intent(ViewVoucherActivity.this, ShowVoucherDetailsActivity.class);
                                     intent.putExtra(MainActivity.VOUCHER_CODE, item.getVoucherCode());

@@ -61,7 +61,6 @@ public class PurchaseVoucherActivity extends AppCompatActivity implements Adapte
     private RequestQueue queue;
     private User user;
     private List<Voucher> voucherList;
-    private List<VoucherOrder> voucherOrderList;
     private int pinInput;
     private double purchaseAmount;
     private Bitmap bitmap;
@@ -77,7 +76,7 @@ public class PurchaseVoucherActivity extends AppCompatActivity implements Adapte
         pDialog = new ProgressDialog(this);
         Intent intent = getIntent();
         voucherList = new ArrayList<>();
-        //voucherOrderList= new ArrayList<>();
+        //get type of voucher user select
         vouchertype = intent.getStringExtra(MainActivity.VOUCHER_TYPE);
 
         if (vouchertype.equalsIgnoreCase("Garena Shells")) {
@@ -105,6 +104,7 @@ public class PurchaseVoucherActivity extends AppCompatActivity implements Adapte
         buttonConfirm.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                //get the item user select
                 int pos = spinnerPurchaseAmount.getSelectedItemPosition();
                 if (pos == -1) {
                     Toast.makeText(getApplicationContext(), "Please select purchase amount.", Toast.LENGTH_LONG).show();
@@ -128,6 +128,7 @@ public class PurchaseVoucherActivity extends AppCompatActivity implements Adapte
                         default:
                             purchaseAmount = 0;
                     }
+                    //check the pin user enter
                     validatePIN(getApplicationContext(), getString(R.string.get_user_url));
                 }
             }
@@ -171,6 +172,7 @@ public class PurchaseVoucherActivity extends AppCompatActivity implements Adapte
                                 String email = userResponse.getString("email");
                                 int transactionPin = userResponse.getInt("pin");
                                 double balance = userResponse.getDouble("balance");
+                                //compare input pin with database pin
                                 if (username.equalsIgnoreCase(loginUsername) && transactionPin == pinInput) {
                                     user = new User(username, password, name, phoneNo, email, pinInput, balance);
                                     isValidPin = true;
@@ -178,6 +180,7 @@ public class PurchaseVoucherActivity extends AppCompatActivity implements Adapte
                                 }
                             }
                             if (isValidPin) {
+                                //check whether user have enough amount to purchase
                                 if (user.getBalance() >= purchaseAmount) {
                                     getVoucher(context, getString(R.string.select_voucher));
                                 } else {
@@ -232,12 +235,14 @@ public class PurchaseVoucherActivity extends AppCompatActivity implements Adapte
                                 String status = userResponse.getString("status");
 
                                 Voucher v = new Voucher(voucherCode, voucherType, amount, expiryDate, status);
+                                //to get the voucher is available & matching the voucher type & the expiry date is have not over
                                 if (voucherType.equalsIgnoreCase(vouchertype) && status.equalsIgnoreCase("available")
                                         && amount == purchaseAmount && System.currentTimeMillis() < expiryDate.getTime()) {
                                     voucherList.add(v);
                                 }
 
                             }
+                            //if the voucher is not sold out
                             if (voucherList.size() > 0) {
                                 voucherList.get(0).setStatus("unavailable");
                                 updateVoucherStatus(getApplicationContext(), getString(R.string.update_voucher_status), voucherList.get(0));
