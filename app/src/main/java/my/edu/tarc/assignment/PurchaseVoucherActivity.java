@@ -295,7 +295,6 @@ public class PurchaseVoucherActivity extends AppCompatActivity implements Adapte
                                 if (success == 0) {
                                     Toast.makeText(getApplicationContext(), message, Toast.LENGTH_LONG).show();
                                 } else {
-                                    Toast.makeText(getApplicationContext(), message, Toast.LENGTH_LONG).show();
                                     SharedPreferences pref = getSharedPreferences("loginInfo", Context.MODE_PRIVATE);
                                     String loginUsername = pref.getString("username", "");
                                     VoucherOrder voucherOrder = new VoucherOrder();
@@ -359,7 +358,6 @@ public class PurchaseVoucherActivity extends AppCompatActivity implements Adapte
                                 if (success == 0) {
                                     Toast.makeText(getApplicationContext(), message, Toast.LENGTH_LONG).show();
                                 } else {
-                                    Toast.makeText(getApplicationContext(), message, Toast.LENGTH_LONG).show();
                                     user.setBalance(user.getBalance() - purchaseAmount);
                                     updateBalance(getApplicationContext(), getString(R.string.update_balance_url), user);
                                 }
