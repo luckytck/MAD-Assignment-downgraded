@@ -484,7 +484,7 @@ public class PurchaseVoucherActivity extends AppCompatActivity implements Adapte
                                 } else {
                                     Toast.makeText(getApplicationContext(), "Purchase successful.", Toast.LENGTH_SHORT).show();
                                     Intent intent = new Intent(context, ShowVoucherDetailsActivity.class);
-                                    intent.putExtra(MainActivity.VOUCHER_AMOUNT, spinnerPurchaseAmount.getSelectedItem().toString());
+                                    intent.putExtra(MainActivity.VOUCHER_AMOUNT, (int)purchaseAmount + "");
                                     intent.putExtra(MainActivity.VOUCHER_TYPE, vouchertype);
                                     intent.putExtra(MainActivity.VOUCHER_CODE, voucherList.get(0).getVoucherCode());
                                     SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");

@@ -97,24 +97,26 @@ public class ViewVoucherActivity extends AppCompatActivity {
                                 }
                             }
                             //set the items display on listview
-                            final VoucherAdapter voucherAdapter = new VoucherAdapter(getApplicationContext(), userVoucherList);
-                            listViewVoucher.setAdapter(voucherAdapter);
+                            if (userVoucherList.size() > 0){
+                                final VoucherAdapter voucherAdapter = new VoucherAdapter(getApplicationContext(), userVoucherList);
+                                listViewVoucher.setAdapter(voucherAdapter);
+                                listViewVoucher.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                                    @Override
+                                    public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                                        //passing the voucher details to ShowVoucherDetailsActivity
+                                        Voucher item = (Voucher) voucherAdapter.getItem(i);
+                                        Intent intent = new Intent(ViewVoucherActivity.this, ShowVoucherDetailsActivity.class);
+                                        intent.putExtra(MainActivity.VOUCHER_CODE, item.getVoucherCode());
+                                        intent.putExtra(MainActivity.VOUCHER_AMOUNT, String.format("%d", (int) item.getAmount()));
+                                        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+                                        intent.putExtra(MainActivity.VOUCHER_EXPIRYDATE, formatter.format(item.getExpiryDate()));
+                                        intent.putExtra(MainActivity.VOUCHER_TYPE, item.getVoucherType());
+                                        startActivity(intent);
+                                    }
+                                });
+                            }
                             if (pDialog.isShowing())
                                 pDialog.dismiss();
-                            listViewVoucher.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-                                @Override
-                                public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                                    //passing the voucher details to ShowVoucherDetailsActivity
-                                    Voucher item = (Voucher) voucherAdapter.getItem(i);
-                                    Intent intent = new Intent(ViewVoucherActivity.this, ShowVoucherDetailsActivity.class);
-                                    intent.putExtra(MainActivity.VOUCHER_CODE, item.getVoucherCode());
-                                    intent.putExtra(MainActivity.VOUCHER_AMOUNT, String.format("%d", (int) item.getAmount()));
-                                    SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
-                                    intent.putExtra(MainActivity.VOUCHER_EXPIRYDATE, formatter.format(item.getExpiryDate()));
-                                    intent.putExtra(MainActivity.VOUCHER_TYPE, item.getVoucherType());
-                                    startActivity(intent);
-                                }
-                            });
                         } catch (Exception e) {
                             Toast.makeText(getApplicationContext(), "Error:" + e.getMessage(), Toast.LENGTH_LONG).show();
                         }
